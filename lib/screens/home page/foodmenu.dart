@@ -102,7 +102,7 @@ Widget _menucontent(int index, List menu) {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    ".50",
+                    ".45",
                     style: ksmalltext.copyWith(
                         fontSize: 17,
                         color: index % 2 == 0 ? Colors.white : kprimarycolor,
