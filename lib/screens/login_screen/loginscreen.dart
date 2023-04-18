@@ -9,8 +9,6 @@ import 'package:foodie/screens/login_screen/register.dart';
 import 'package:neopop/neopop.dart';
 import 'package:provider/provider.dart';
 
-import '../../Firebase/auth.dart';
-
 // ignore: use_key_in_widget_constructors
 class LoginScreen extends StatelessWidget {
   final emailcontroller = TextEditingController();
@@ -162,19 +160,7 @@ class LoginScreen extends StatelessWidget {
                   NeoPopButton(
                     color: Colors.white,
                     onTapUp: () {},
-                    onTapDown: () {
-                      try {
-                        context.read<auth>().signInwithEmailandpassword(
-                            email: emailcontroller.text.trim(),
-                            password: passwordcontroller.text.trim());
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => Foodpage())));
-                      } catch (e) {
-                        print(e);
-                      }
-                    },
+                    onTapDown: () {},
                     child: Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 20, vertical: 15),

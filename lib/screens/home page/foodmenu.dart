@@ -2,8 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:foodie/Firebase/Menucontroller.dart';
-import 'package:foodie/Firebase/STorage.dart';
+
 import 'package:foodie/constants/Colors.dart';
 import 'package:foodie/constants/texts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,22 +18,6 @@ class Foodmenu extends StatefulWidget {
 class _FoodmenuState extends State<Foodmenu> {
   List menulist = [];
   @override
-  void initState() {
-    super.initState();
-    fetchmenu();
-  }
-
-  Future fetchmenu() async {
-    dynamic resultmenu = await Menucontroller().getmenu();
-    if (resultmenu == null) {
-      return Text('Unable to retrive data');
-    } else {
-      setState(() {
-        menulist = resultmenu;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -48,7 +31,7 @@ class _FoodmenuState extends State<Foodmenu> {
                   width: 10,
                 );
               }),
-              itemCount: menulist.length))
+              itemCount: 5))
     ]);
   }
 }
@@ -65,25 +48,12 @@ Widget _menucontent(int index, List menu) {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        FutureBuilder(
-          future: Storage().downloadurl(menu[index]['Picture']),
-          builder: ((context, AsyncSnapshot<String> snapshot) {
-            if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.hasData) {
-              return Container(
-                margin: EdgeInsets.only(right: 20, left: 20, top: 7, bottom: 0),
-                child: Image(
-                  image: NetworkImage(snapshot.data!),
-                  fit: BoxFit.contain,
-                ),
-              );
-            }
-            if (snapshot.connectionState == ConnectionState.waiting ||
-                !snapshot.hasData) {
-              return CircularProgressIndicator();
-            }
-            return Container();
-          }),
+        Container(
+          margin: EdgeInsets.only(right: 20, left: 20, top: 7, bottom: 0),
+          child: Image(
+            image: AssetImage('assets/images/burger.png'),
+            fit: BoxFit.contain,
+          ),
         ),
         Container(
           padding: EdgeInsets.only(left: 20),
@@ -91,7 +61,7 @@ Widget _menucontent(int index, List menu) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                menu[index]['Name'],
+                'Cheese Burger',
                 textAlign: TextAlign.left,
                 style: kbigtext.copyWith(
                     fontSize: 20,
@@ -101,7 +71,7 @@ Widget _menucontent(int index, List menu) {
                 height: 5,
               ),
               Text(
-                menu[index]['Cuisine'],
+                'American Delights',
                 style:
                     ksmalltext.copyWith(fontSize: 16, color: Color(0xff747478)),
               ),
@@ -120,20 +90,20 @@ Widget _menucontent(int index, List menu) {
                     width: 5,
                   ),
                   Text(
-                    menu[index]['Price'].toString(),
+                    '14',
                     style: ksmalltext.copyWith(
                         fontSize: 22,
                         color: index % 2 == 0 ? Colors.white : kprimarycolor,
                         fontWeight: FontWeight.bold),
                   ),
-                  // Text(
-                  //   ".50",
-                  //   style: ksmalltext.copyWith(
-                  //       fontSize: 17,
-                  //       color: index % 2 == 0 ? Colors.white : kprimarycolor,
-                  //       fontWeight: FontWeight.bold,
-                  //       fontFeatures: [FontFeature.superscripts()]),
-                  // ),
+                  Text(
+                    ".50",
+                    style: ksmalltext.copyWith(
+                        fontSize: 17,
+                        color: index % 2 == 0 ? Colors.white : kprimarycolor,
+                        fontWeight: FontWeight.bold,
+                        fontFeatures: [FontFeature.superscripts()]),
+                  ),
                   SizedBox(
                     width: 15,
                   ),

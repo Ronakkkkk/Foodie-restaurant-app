@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:foodie/Firebase/Menucontroller.dart';
-import 'package:foodie/Firebase/auth.dart';
+
 import 'package:foodie/screens/home%20page/foodmenu.dart';
 import 'package:foodie/screens/home%20page/main_food_page%20.dart';
 
@@ -24,13 +23,8 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
     );
-    return MultiProvider(
-      providers: [
-        Provider<auth>(create: (_) => auth()),
-      ],
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false, title: 'Foodie', home: Foodpage()),
-    );
+    return MaterialApp(
+        debugShowCheckedModeBanner: false, title: 'Foodie', home: Foodpage());
   }
 }
 
@@ -45,4 +39,3 @@ class MyApp extends StatelessWidget {
 //       return Mainintroscreen();
 //     }
 //   }
-
