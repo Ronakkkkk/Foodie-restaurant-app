@@ -24,6 +24,8 @@ class Foodmenu extends StatelessWidget {
       Container(
           height: 252,
           child: PageView(
+            controller: pageController,
+            onPageChanged: (value) => callback(value),
             children: [
               ListView.separated(
                   scrollDirection: Axis.horizontal,
