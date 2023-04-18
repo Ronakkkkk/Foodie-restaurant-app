@@ -20,6 +20,7 @@ class Foodpage extends StatefulWidget {
 
 class _FoodpageState extends State<Foodpage> {
   var selected = 0;
+  final pagecontroller = PageController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +64,11 @@ class _FoodpageState extends State<Foodpage> {
                   });
                 }),
             GestureDetector(
-              child: Foodmenu(),
+              child: Foodmenu(selected, (int index) {
+                setState(() {
+                  selected = index;
+                });
+              }, pagecontroller),
               onTap: () {
                 Navigator.push(
                   context,
