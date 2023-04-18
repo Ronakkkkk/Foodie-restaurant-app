@@ -116,7 +116,7 @@ Widget _menucontent(int index, List menu) {
                             index % 2 == 0 ? Color(0xff747478) : kprimarycolor),
                     child: Center(
                       child: Text(
-                        'Buy',
+                        'Sell',
                         style: kbigtext.copyWith(
                             fontSize: 14, color: Colors.white),
                       ),
