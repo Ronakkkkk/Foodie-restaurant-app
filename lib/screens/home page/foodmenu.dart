@@ -5,33 +5,38 @@ import 'package:flutter/material.dart';
 
 import 'package:foodie/constants/Colors.dart';
 import 'package:foodie/constants/texts.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:foodie/test.dart';
+
 import 'package:provider/provider.dart';
 
-class Foodmenu extends StatefulWidget {
-  @override
-  State<Foodmenu> createState() => _FoodmenuState();
-}
-
-class _FoodmenuState extends State<Foodmenu> {
+class Foodmenu extends StatelessWidget {
+  final int selected;
+  final Function callback;
+  final PageController pageController;
+  Foodmenu(this.selected, this.callback, this.pageController);
   List menulist = [];
+
   @override
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       Container(
           height: 252,
-          child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: ((context, index) => _menucontent(index, menulist)),
-              separatorBuilder: ((context, index) {
-                return SizedBox(
-                  width: 10,
-                );
-              }),
-              itemCount: 5))
+          child: PageView(
+            controller: pageController,
+            onPageChanged: (value) => callback(value),
+            children: [
+              ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: ((context, index) =>
+                      _menucontent(index, menulist)),
+                  separatorBuilder: ((context, index) {
+                    return SizedBox(
+                      width: 10,
+                    );
+                  }),
+                  itemCount: selected % 2 == 0 ? 5 : 1)
+            ],
+          ))
     ]);
   }
 }
@@ -97,7 +102,7 @@ Widget _menucontent(int index, List menu) {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    ".50",
+                    ".45",
                     style: ksmalltext.copyWith(
                         fontSize: 17,
                         color: index % 2 == 0 ? Colors.white : kprimarycolor,
@@ -116,7 +121,7 @@ Widget _menucontent(int index, List menu) {
                             index % 2 == 0 ? Color(0xff747478) : kprimarycolor),
                     child: Center(
                       child: Text(
-                        'Buy',
+                        'Sell',
                         style: kbigtext.copyWith(
                             fontSize: 14, color: Colors.white),
                       ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:foodie/constants/texts.dart';
+import 'package:foodie/firebase/auth.dart';
 import 'package:foodie/screens/home%20page/main_food_page%20.dart';
 import 'package:foodie/screens/login_screen/loginscreen.dart';
 import 'package:foodie/screens/login_screen/register.dart';
@@ -158,7 +159,19 @@ class RegisterScreen extends StatelessWidget {
                   NeoPopButton(
                     color: Colors.white,
                     onTapUp: () {},
-                    onTapDown: () {},
+                    onTapDown: () async {
+                      try {
+                        await auth().createnwithEmailandpassword(
+                            email: emailcontroller.text.trim(),
+                            password: passwordcontroller.text.trim());
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => Foodpage())));
+                      } catch (e) {
+                        print(e);
+                      }
+                    },
                     child: Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 20, vertical: 15),
