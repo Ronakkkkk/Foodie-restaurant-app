@@ -138,7 +138,58 @@ class RegisterScreen extends StatelessWidget {
                           codeAutoRetrievalTimeout: (String verificationId) {},
                         );
                       } catch (e) {
-                        print(e);
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Oops!"),
+                                content: Text("$e"),
+                                actions: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                          height: 180,
+                                          width: 600,
+                                          child: Image(
+                                            image: AssetImage(
+                                                'assets/images/otp.png'),
+                                            fit: BoxFit.contain,
+                                          )),
+                                      SizedBox(
+                                        height: 15,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 40),
+                                        child: NeoPopButton(
+                                          onTapUp: () => Navigator.pop(context),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 40, vertical: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  "Ok",
+                                                  style: kcredtext.copyWith(
+                                                      fontSize: 15,
+                                                      color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          color: Colors.black,
+                                          parentColor: Colors.black,
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              );
+                            });
                       }
                     },
                     child: Padding(

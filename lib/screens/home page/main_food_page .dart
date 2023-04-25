@@ -55,7 +55,7 @@ class _FoodpageState extends State<Foodpage> {
               'Popular Deals',
               style: kbigtext,
             ),
-            Dealspage(),
+            GestureDetector(onTap: () {}, child: Dealspage()),
             Foodlist(
                 selected: selected,
                 ontap: (int index) {

@@ -9,6 +9,7 @@ import 'package:foodie/firebase/auth.dart';
 import 'package:foodie/screens/home%20page/main_food_page%20.dart';
 import 'package:foodie/screens/login_screen/loginscreen.dart';
 import 'package:foodie/screens/login_screen/register.dart';
+import 'package:foodie/screens/login_screen/registerinfo.dart';
 import 'package:neopop/neopop.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -147,9 +148,60 @@ class OtpPage extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: ((context) => Foodpage())));
+                                builder: ((context) => RegisterInfoScreen())));
                       } catch (e) {
-                        print(e);
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Oops!"),
+                                content: Text("$e"),
+                                actions: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                          height: 180,
+                                          width: 600,
+                                          child: Image(
+                                            image: AssetImage(
+                                                'assets/images/otp.png'),
+                                            fit: BoxFit.contain,
+                                          )),
+                                      SizedBox(
+                                        height: 15,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 40),
+                                        child: NeoPopButton(
+                                          onTapUp: () => Navigator.pop(context),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 40, vertical: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  "Ok",
+                                                  style: kcredtext.copyWith(
+                                                      fontSize: 15,
+                                                      color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          color: Colors.black,
+                                          parentColor: Colors.black,
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              );
+                            });
                       }
                     },
                     child: Padding(
