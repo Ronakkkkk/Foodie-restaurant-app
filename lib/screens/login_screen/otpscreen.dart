@@ -6,22 +6,47 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:foodie/constants/texts.dart';
 import 'package:foodie/firebase/auth.dart';
-import 'package:foodie/main.dart';
 import 'package:foodie/screens/home%20page/main_food_page%20.dart';
 import 'package:foodie/screens/login_screen/loginscreen.dart';
-import 'package:foodie/screens/login_screen/otpscreen.dart';
 import 'package:foodie/screens/login_screen/register.dart';
+import 'package:foodie/screens/login_screen/registerinfo.dart';
 import 'package:neopop/neopop.dart';
+import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
 // ignore: use_key_in_widget_constructors
-class RegisterScreen extends StatelessWidget {
-  final pnumbercontroller = TextEditingController();
-  String countrycode_text = '+977';
-  static String verify = '';
+class OtpPage extends StatelessWidget {
+  final otpcontroller = TextEditingController();
+
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final String verifyid;
+  OtpPage(this.verifyid);
 
   @override
   Widget build(BuildContext context) {
+    final defaultPinTheme = PinTheme(
+      width: 47,
+      height: 47,
+      textStyle: TextStyle(
+          fontSize: 20,
+          color: Color.fromRGBO(30, 60, 87, 1),
+          fontWeight: FontWeight.w600),
+      decoration: BoxDecoration(
+        border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
+        borderRadius: BorderRadius.circular(20),
+      ),
+    );
+
+    final focusedPinTheme = defaultPinTheme.copyDecorationWith(
+      border: Border.all(color: Colors.grey),
+      borderRadius: BorderRadius.circular(8),
+    );
+
+    final submittedPinTheme = defaultPinTheme.copyWith(
+      decoration: defaultPinTheme.decoration?.copyWith(
+        color: Color.fromRGBO(234, 239, 243, 1),
+      ),
+    );
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -52,14 +77,13 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 Container(
                   width: double.maxFinite,
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Center(
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'You\'re you new here?',
+                            'Let\'s get you started!',
                             textDirection: TextDirection.ltr,
                             textAlign: TextAlign.left,
                             style: kcredtext.copyWith(
@@ -71,7 +95,7 @@ class RegisterScreen extends StatelessWidget {
                             height: 10,
                           ),
                           Text(
-                            'Welcome home foodie,\n Let\'s start eating!',
+                            'Enter your otp.',
                             textDirection: TextDirection.ltr,
                             textAlign: TextAlign.left,
                             style: kcredtextlight.copyWith(
@@ -80,29 +104,21 @@ class RegisterScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w100),
                           ),
                           const SizedBox(
-                            height: 55,
+                            height: 25,
                           ),
-                          TextField(
-                            controller: pnumbercontroller,
-                            style: ktextfield,
-                            keyboardType: TextInputType.phone,
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Color(0xff6B6B6B), width: 2),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Color(0xff6B6B6B), width: 2),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                              hintText: 'Enter phone number',
-                              hintStyle: khinttext,
-                            ),
+                          Pinput(
+                            controller: otpcontroller,
+                            length: 6,
+                            defaultPinTheme: defaultPinTheme,
+                            focusedPinTheme: focusedPinTheme,
+                            submittedPinTheme: submittedPinTheme,
+                            pinputAutovalidateMode:
+                                PinputAutovalidateMode.onSubmit,
+                            showCursor: true,
+                            onCompleted: (pin) => print(pin),
                           ),
                           SizedBox(
-                            height: 15,
+                            height: 35,
                           ),
                         ],
                       ),
@@ -113,7 +129,7 @@ class RegisterScreen extends StatelessWidget {
             ),
             Container(
               height: 100,
-              padding: EdgeInsets.symmetric(horizontal: 30),
+              padding: EdgeInsets.symmetric(horizontal: 33),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -122,21 +138,17 @@ class RegisterScreen extends StatelessWidget {
                     onTapUp: () {},
                     onTapDown: () async {
                       try {
-                        await FirebaseAuth.instance.verifyPhoneNumber(
-                          phoneNumber:
-                              '${countrycode_text + pnumbercontroller.text.trim()}',
-                          verificationCompleted:
-                              (PhoneAuthCredential credential) {},
-                          verificationFailed: (FirebaseAuthException e) {},
-                          codeSent: (String verificationId, int? resendToken) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: ((context) =>
-                                        OtpPage(verificationId))));
-                          },
-                          codeAutoRetrievalTimeout: (String verificationId) {},
-                        );
+                        PhoneAuthCredential credential =
+                            PhoneAuthProvider.credential(
+                                verificationId: verifyid,
+                                smsCode: otpcontroller.text.trim());
+
+                        // Sign the user in (or link) with the credential
+                        await auth.signInWithCredential(credential);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => RegisterInfoScreen())));
                       } catch (e) {
                         showDialog(
                             context: context,
@@ -199,7 +211,7 @@ class RegisterScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Send Code",
+                            "Verify Phone Number",
                             style: kcredtext.copyWith(fontSize: 15),
                           ),
                         ],
@@ -207,10 +219,10 @@ class RegisterScreen extends StatelessWidget {
                     ),
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        'Already have an account?',
+                        'Use a different',
                         style: kcredtextlight.copyWith(
                             fontSize: 20, color: Color(0xff6B6B6B)),
                       ),
@@ -218,14 +230,11 @@ class RegisterScreen extends StatelessWidget {
                         width: 5,
                       ),
                       GestureDetector(
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => LoginScreen()))),
+                        onTap: () => Navigator.pop(context),
                         child: Text(
-                          'Login!',
+                          'Phone Number?',
                           style: kcredtextlight.copyWith(
-                              fontSize: 20, color: Colors.white),
+                              fontSize: 19, color: Colors.white),
                         ),
                       ),
                     ],

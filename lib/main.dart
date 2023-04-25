@@ -10,6 +10,9 @@ import 'package:foodie/screens/home%20page/main_food_page%20.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:foodie/screens/login_screen/main_intro_screen.dart';
+import 'package:foodie/screens/login_screen/otpscreen.dart';
+import 'package:foodie/screens/login_screen/register.dart';
+import 'package:foodie/screens/login_screen/registerinfo.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -33,20 +36,21 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Foodie',
-          home: Mainintroscreen()),
+          home: RegisterScreen()),
     );
   }
 }
 
-// class Authenticationwrapper extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     final firebaseuser = context.watch<User>();
+class Authenticationwrapper extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final auth = FirebaseAuth.instance;
+    final firebaseuser = auth.currentUser;
 
-//     if (firebaseuser != null) {
-//       return Foodpage();
-//     } else {
-//       return Mainintroscreen();
-//     }
-//   }
-// }
+    if (firebaseuser != null) {
+      return Foodpage();
+    } else {
+      return Mainintroscreen();
+    }
+  }
+}
