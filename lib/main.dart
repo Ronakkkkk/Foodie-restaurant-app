@@ -34,9 +34,7 @@ class MyApp extends StatelessWidget {
         Provider<auth>(create: (_) => auth()),
       ],
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Foodie',
-          home: RegisterScreen()),
+          debugShowCheckedModeBanner: false, title: 'Foodie', home: Foodpage()),
     );
   }
 }

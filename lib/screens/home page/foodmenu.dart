@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:foodie/constants/Colors.dart';
@@ -8,22 +10,52 @@ import 'package:foodie/constants/texts.dart';
 
 import 'package:provider/provider.dart';
 
-class Foodmenu extends StatelessWidget {
+import '../../firebase/menucontroller.dart';
+
+class Foodmenu extends StatefulWidget {
   final int selected;
   final Function callback;
   final PageController pageController;
   Foodmenu(this.selected, this.callback, this.pageController);
+
+  @override
+  State<Foodmenu> createState() => _FoodmenuState();
+}
+
+class _FoodmenuState extends State<Foodmenu> {
   List menulist = [];
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchmenu();
+  }
+
+  Future fetchmenu() async {
+    try {
+      dynamic resultmenu = await Menucontroller().getmenu();
+      if (resultmenu == null) {
+        return "Unable to retrive data";
+      } else {
+        setState(() {
+          menulist = resultmenu;
+        });
+        ;
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       Container(
           height: 252,
           child: PageView(
-            controller: pageController,
-            onPageChanged: (value) => callback(value),
+            controller: widget.pageController,
+            onPageChanged: (value) => widget.callback(value),
             children: [
               ListView.separated(
                   scrollDirection: Axis.horizontal,
@@ -34,7 +66,7 @@ class Foodmenu extends StatelessWidget {
                       width: 10,
                     );
                   }),
-                  itemCount: selected % 2 == 0 ? 5 : 1)
+                  itemCount: widget.selected % 2 == 0 ? 5 : 1)
             ],
           ))
     ]);
