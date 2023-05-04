@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:core';
+import 'dart:developer';
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:foodie/constants/Colors.dart';
@@ -15,29 +18,51 @@ class Foodmenu extends StatelessWidget {
   Foodmenu(this.selected, this.callback, this.pageController);
   List menulist = [];
 
-  @override
+Future<void> fetchMenuData() async {
+  DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection("menus").doc("recommended").get();
+  log(documentSnapshot.data().toString());
+}
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-          height: 252,
-          child: PageView(
-            controller: pageController,
-            onPageChanged: (value) => callback(value),
-            children: [
-              ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: ((context, index) =>
-                      _menucontent(index, menulist)),
-                  separatorBuilder: ((context, index) {
-                    return SizedBox(
-                      width: 10,
-                    );
-                  }),
-                  itemCount: selected % 2 == 0 ? 5 : 1)
-            ],
-          ))
-    ]);
+    return StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance.collection("menus").doc("recommended").snapshots(),
+      builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator(),);
+        }
+
+        if (!snapshot.hasData) {
+          return Text('No data available');
+        }
+        Map<String, dynamic> data = snapshot.data?.data() as Map<String, dynamic>;
+
+        log(data.toString());
+        return Column(children: [
+          Container(
+              height: 252,
+              child: PageView(
+                controller: pageController,
+                onPageChanged: (value) => callback(value),
+                children: [
+                  ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: ((context, index) =>
+                          _menucontent(index, data['food-items'])),
+                      separatorBuilder: ((context, index) {
+                        return SizedBox(
+                          width: 10,
+                        );
+                      }),
+                      itemCount: data['food-items'].length)
+                ],
+              ))
+        ]);
+      }
+    );
   }
 }
 
@@ -56,7 +81,7 @@ Widget _menucontent(int index, List menu) {
         Container(
           margin: EdgeInsets.only(right: 20, left: 20, top: 7, bottom: 0),
           child: Image(
-            image: AssetImage('assets/images/burger.png'),
+            image: NetworkImage(menu[index]['image']),
             fit: BoxFit.contain,
           ),
         ),
@@ -66,7 +91,7 @@ Widget _menucontent(int index, List menu) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Cheese Burger',
+                menu[index]['name'],
                 textAlign: TextAlign.left,
                 style: kbigtext.copyWith(
                     fontSize: 20,
@@ -76,7 +101,7 @@ Widget _menucontent(int index, List menu) {
                 height: 5,
               ),
               Text(
-                'American Delights',
+                menu[index]['cuisine'],
                 style:
                     ksmalltext.copyWith(fontSize: 16, color: Color(0xff747478)),
               ),
