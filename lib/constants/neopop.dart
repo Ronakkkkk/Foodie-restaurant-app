@@ -4,7 +4,7 @@ import 'dart:ui';
 const kButtonDepth = 3.0;
 const kDisabledButtonColor = Color(0xFF8A8A8A);
 const kDisabledButtonPlunkColor = Color(0xFF5D5D5D);
-const kbuttonDuration = Duration(milliseconds: 50);
+const kButtonDuration = Duration(milliseconds: 50);
 
 const kTiltedButtonDepth = 8.0;
 const kTiltedButtonAngle = 2 * math.pi / 5;

@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:foodie/constants/texts.dart';
 import 'package:foodie/screens/login_screen/introscreenbrain.dart';
-import 'package:neopop/neopop.dart';
-import 'dart:math';
-import 'package:foodie/constants/neopop.dart';
+
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class Logincontent extends StatefulWidget {
+class LoginContent extends StatefulWidget {
   @override
-  State<Logincontent> createState() => _LogincontentState();
+  State<LoginContent> createState() => _LoginContentState();
 }
 
-class _LogincontentState extends State<Logincontent> {
+class _LoginContentState extends State<LoginContent> {
   PageController pageController = PageController(viewportFraction: 1);
-  var _currentpgaeindex = 0;
-  List _loginlist = loginbrain.loginbran;
+  var _currentPageIndex = 0;
+  final List _loginList = loginbrain.loginbran;
 
   @override
   void initState() {
@@ -24,11 +21,12 @@ class _LogincontentState extends State<Logincontent> {
 
     pageController.addListener(() {
       setState(() {
-        _currentpgaeindex = pageController.page!.toInt();
+        _currentPageIndex = pageController.page!.toInt();
       });
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
@@ -40,19 +38,19 @@ class _LogincontentState extends State<Logincontent> {
               controller: pageController,
               scrollDirection: Axis.horizontal,
               itemBuilder: ((context, index) =>
-                  _getcontent(context, index, _loginlist)),
+                  _getcontent(context, index, _loginList)),
               itemCount: 3,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 11,
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: SmoothPageIndicator(
                 controller: pageController,
                 count: 3,
-                effect: ExpandingDotsEffect(
+                effect: const ExpandingDotsEffect(
                     activeDotColor: Color(0xff6B6B6B),
                     radius: 0,
                     dotColor: Color(0xff6B6B6B),
@@ -76,18 +74,18 @@ Widget _getcontent(context, int index, List list) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-            margin: index == 1 ? EdgeInsets.only(left: 10) : null,
+            margin: index == 1 ? const EdgeInsets.only(left: 10) : null,
             width: 160,
             height: 160,
             child: Image(
               image: AssetImage(list[index]['image']),
               fit: BoxFit.contain,
             )),
-        SizedBox(
+        const SizedBox(
           height: 75,
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 26),
+          padding: const EdgeInsets.symmetric(horizontal: 26),
           child: Column(
             children: [
               Container(
@@ -96,11 +94,11 @@ Widget _getcontent(context, int index, List list) {
                   list[index]['head'],
                   textDirection: TextDirection.ltr,
                   textAlign: TextAlign.start,
-                  style: kcredtextlight.copyWith(
+                  style: kCredTextLight.copyWith(
                       fontSize: 35, fontWeight: FontWeight.w600),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Container(
@@ -109,8 +107,8 @@ Widget _getcontent(context, int index, List list) {
                   list[index]['leg'],
                   textDirection: TextDirection.ltr,
                   textAlign: TextAlign.start,
-                  style: kcredtextlight.copyWith(
-                      fontSize: 20, color: Color(0xff6B6B6B)),
+                  style: kCredTextLight.copyWith(
+                      fontSize: 20, color: const Color(0xff6B6B6B)),
                 ),
               ),
             ],
