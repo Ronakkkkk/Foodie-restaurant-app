@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:foodie/constants/colors.dart';
 
 class Ingi extends StatelessWidget {
-  final List<Image> list;
-  final List<String> list1;
+  final List<dynamic> ingis;
 
-  const Ingi(this.list, this.list1);
+  Ingi(this.ingis);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class Ingi extends StatelessWidget {
               separatorBuilder: ((context, index) => const SizedBox(
                     width: 40,
                   )),
-              itemCount: list.length),
+              itemCount: ingis.length),
         ),
       ],
     );
@@ -40,11 +39,11 @@ class Ingi extends StatelessWidget {
               color: Colors.white,
             ),
             // child: Text('${list[index]}'),
-            child: list[index]),
+            child: Image.asset(ingis[index]['ingiImage'])),
         const SizedBox(
           height: 7,
         ),
-        Text(list1[index],
+        Text(ingis[index]['ingiName'],
             style: const TextStyle(fontSize: 12, color: kIconColor)),
       ],
     );

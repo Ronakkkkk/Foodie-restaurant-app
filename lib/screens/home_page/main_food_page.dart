@@ -17,7 +17,7 @@ class FoodPage extends StatefulWidget {
 }
 
 class _FoodPageState extends State<FoodPage> {
-  var selected = 0;
+  int selected = 0;
   final pagecontroller = PageController();
 
   @override
@@ -56,25 +56,22 @@ class _FoodPageState extends State<FoodPage> {
             ),
             GestureDetector(onTap: () {}, child: DealsPage()),
             FoodList(
-                selected: selected,
-                ontap: (int index) {
-                  setState(() {
-                    selected = index;
-                  });
-                }),
-            GestureDetector(
-              child: FoodMenu(selected, (int index) {
+              selected: selected,
+              ontap: (int index) {
                 setState(() {
                   selected = index;
                 });
-              }, pagecontroller),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MenuScreen()),
-                );
+                pagecontroller.animateToPage(index,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut);
               },
-            )
+              pageController: pagecontroller,
+            ),
+            FoodMenu(selected, (int index) {
+              setState(() {
+                selected = index;
+              });
+            }, pagecontroller)
           ],
         ),
       ),

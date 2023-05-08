@@ -8,24 +8,46 @@ import 'package:foodie/constants/texts.dart';
 import 'package:foodie/screens/cart_screen/main_cart_page.dart';
 import 'package:foodie/widgets/triangle.dart';
 
-class FoodQuantity extends StatefulWidget {
-  const FoodQuantity({super.key});
+class FoodPrice extends StatefulWidget {
+  final int price;
+  const FoodPrice({super.key, required this.price});
 
   @override
-  State<FoodQuantity> createState() => _FoodQuantityState();
+  State<FoodPrice> createState() => _FoodPriceState();
 }
 
-class _FoodQuantityState extends State<FoodQuantity> {
-  int index = 0;
-  int wprice = 12;
+class _FoodPriceState extends State<FoodPrice> {
+  int index = 1;
+  int calculatedPrice = 0;
+  int dprice = 0;
 
-  int dprice = 50;
+  @override
+  void initState() {
+    super.initState();
+    calculatedPrice = widget.price;
+  }
+
+  void updateCalculatedPrice() {
+    setState(() {
+      calculatedPrice = index * widget.price;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        SizedBox(
+          height: 15,
+        ),
+        Text(
+          'Choose the quantity:',
+          style: TextStyle(fontSize: 14, color: kIconColor),
+        ),
+        SizedBox(
+          height: 15,
+        ),
         Container(
           margin: const EdgeInsets.only(right: 12),
           color: kBackground,
@@ -73,7 +95,7 @@ class _FoodQuantityState extends State<FoodQuantity> {
                         onTap: () {
                           setState(() {
                             index > 0 ? index-- : index = 0;
-                            wprice = index * 12;
+                            updateCalculatedPrice();
                           });
                         },
                         child: Text(
@@ -98,7 +120,7 @@ class _FoodQuantityState extends State<FoodQuantity> {
                         onTap: () {
                           setState(() {
                             index < 20 ? index++ : index = 20;
-                            wprice = index * 12;
+                            updateCalculatedPrice();
                           });
                         },
                         child: Text(
@@ -155,7 +177,7 @@ class _FoodQuantityState extends State<FoodQuantity> {
                               width: 7,
                             ),
                             Text(
-                              "$wprice",
+                              "$calculatedPrice",
                               style: kSmallText.copyWith(
                                   fontSize: 33,
                                   color: kPrimaryColor,

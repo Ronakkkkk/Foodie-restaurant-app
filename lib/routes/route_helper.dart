@@ -9,6 +9,5 @@ class RouteHelper {
 
   static List<GetPage> routes = [
     GetPage(name: "/", page: (() => FoodPage())),
-    GetPage(name: foodesc, page: (() => const MenuScreen()))
   ];
 }

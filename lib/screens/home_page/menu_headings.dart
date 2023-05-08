@@ -5,13 +5,17 @@ import 'package:foodie/constants/texts.dart';
 class FoodList extends StatelessWidget {
   final Function ontap;
   final int selected;
-  FoodList({super.key, required this.selected, required this.ontap});
+  final PageController pageController;
+  FoodList(
+      {super.key,
+      required this.selected,
+      required this.ontap,
+      required this.pageController});
   final List<String> list = [
     'Recommended',
-    'newest',
-    "thakali",
     'MoMo',
-    'Desert'
+    "popular",
+    'thakali',
   ];
 
   @override
@@ -22,7 +26,12 @@ class FoodList extends StatelessWidget {
         child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) => GestureDetector(
-                  onTap: () => ontap(index),
+                  onTap: () {
+                    ontap(index);
+                    pageController.animateToPage(index,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut);
+                  },
                   child: Text(
                     list[index],
                     style: kSmallText.copyWith(
@@ -34,6 +43,6 @@ class FoodList extends StatelessWidget {
             separatorBuilder: (_, index) => const SizedBox(
                   width: 20,
                 ),
-            itemCount: 5));
+            itemCount: list.length));
   }
 }
