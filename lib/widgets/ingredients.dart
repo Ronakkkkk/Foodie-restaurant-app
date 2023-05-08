@@ -1,34 +1,27 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:foodie/constants/Colors.dart';
-import 'package:foodie/constants/texts.dart';
+import 'package:foodie/constants/colors.dart';
 
-class ingi extends StatelessWidget {
-  final List<Image> list;
-  final List<String> list1;
+class Ingi extends StatelessWidget {
+  final List<dynamic> ingis;
 
-  const ingi(this.list, this.list1);
+  Ingi(this.ingis);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 47),
+          padding: const EdgeInsets.symmetric(horizontal: 47),
           height: 80,
           child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 return _ingicontext(index);
               },
-              separatorBuilder: ((context, index) => SizedBox(
+              separatorBuilder: ((context, index) => const SizedBox(
                     width: 40,
                   )),
-              itemCount: list.length),
+              itemCount: ingis.length),
         ),
       ],
     );
@@ -40,18 +33,18 @@ class ingi extends StatelessWidget {
         Container(
             height: 50,
             width: 50,
-            padding: EdgeInsets.all(13),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.all(13),
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white,
             ),
             // child: Text('${list[index]}'),
-            child: list[index]),
-        SizedBox(
+            child: Image.asset(ingis[index]['ingiImage'])),
+        const SizedBox(
           height: 7,
         ),
-        Text('${list1[index]}',
-            style: TextStyle(fontSize: 12, color: kiconcolor)),
+        Text(ingis[index]['ingiName'],
+            style: const TextStyle(fontSize: 12, color: kIconColor)),
       ],
     );
   }

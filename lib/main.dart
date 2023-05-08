@@ -1,18 +1,13 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:foodie/Firebase/auth.dart';
-import 'package:foodie/screens/home%20page/foodmenu.dart';
-import 'package:foodie/screens/home%20page/main_food_page%20.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'package:foodie/Firebase/auth.dart';
+import 'package:foodie/screens/home_page/main_food_page.dart';
 import 'package:foodie/screens/login_screen/main_intro_screen.dart';
-import 'package:foodie/screens/login_screen/otpscreen.dart';
-import 'package:foodie/screens/login_screen/register.dart';
-import 'package:foodie/screens/login_screen/registerinfo.dart';
+
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -34,21 +29,23 @@ class MyApp extends StatelessWidget {
         Provider<auth>(create: (_) => auth()),
       ],
       child: MaterialApp(
-          debugShowCheckedModeBanner: false, title: 'Foodie', home: Foodpage()),
+          debugShowCheckedModeBanner: false, title: 'Foodie', home: FoodPage()),
     );
   }
 }
 
-class Authenticationwrapper extends StatelessWidget {
+class AuthenticationWrapper extends StatelessWidget {
+  const AuthenticationWrapper({super.key});
+
   @override
   Widget build(BuildContext context) {
     final auth = FirebaseAuth.instance;
-    final firebaseuser = auth.currentUser;
+    final firebaseUser = auth.currentUser;
 
-    if (firebaseuser != null) {
-      return Foodpage();
+    if (firebaseUser != null) {
+      return FoodPage();
     } else {
-      return Mainintroscreen();
+      return const MainIntroScreen();
     }
   }
 }
