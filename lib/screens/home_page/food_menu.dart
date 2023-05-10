@@ -9,6 +9,9 @@ import 'package:foodie/constants/colors.dart';
 import 'package:foodie/constants/texts.dart';
 import 'package:foodie/screens/menu_screen/main_menu_screen.dart';
 
+import 'package:foodie/widgets/string_casing.dart';
+import 'package:foodie/widgets/cloud_image_loader.dart';
+
 class FoodMenu extends StatefulWidget {
   final int selected;
   final Function callback;
@@ -105,24 +108,16 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
-            margin:
-                const EdgeInsets.only(right: 20, left: 20, top: 7, bottom: 0),
-            child: FutureBuilder<String>(
-                builder: (context, snapshot) {
-                  if(!snapshot.hasData){
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  return Image.network(snapshot.data!, fit: BoxFit.cover);
-                },
-                future: fetchImage(menu[index]['image'])),
-          ),
+              margin:
+                  const EdgeInsets.only(right: 20, left: 20, top: 7, bottom: 0),
+              child: CloudImageLoader(menu[index]['image'])),
           Container(
             padding: const EdgeInsets.only(left: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  menu[index]['name'],
+                  menu[index]['name'].toString().toTitleCase(),
                   textAlign: TextAlign.left,
                   style: kBigText.copyWith(
                       fontSize: 20,
@@ -132,7 +127,7 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
                   height: 5,
                 ),
                 Text(
-                  menu[index]['cuisine'],
+                  menu[index]['cuisine'].toString(),
                   style: kSmallText.copyWith(
                       fontSize: 16, color: const Color(0xff747478)),
                 ),
