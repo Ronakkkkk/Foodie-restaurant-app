@@ -1,8 +1,8 @@
 import 'dart:core';
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:foodie/constants/colors.dart';
@@ -107,12 +107,14 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
           Container(
             margin:
                 const EdgeInsets.only(right: 20, left: 20, top: 7, bottom: 0),
-            child: Image(
-              image: index % 2 == 0
-                  ? AssetImage('assets/images/burger.png')
-                  : AssetImage('assets/images/bowl.png'),
-              fit: BoxFit.cover,
-            ),
+            child: FutureBuilder<String>(
+                builder: (context, snapshot) {
+                  if(!snapshot.hasData){
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  return Image.network(snapshot.data!, fit: BoxFit.cover);
+                },
+                future: fetchImage(menu[index]['image'])),
           ),
           Container(
             padding: const EdgeInsets.only(left: 20),
@@ -191,4 +193,10 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
       ),
     ),
   );
+}
+
+Future<String> fetchImage(String url) async {
+  final gsRef = FirebaseStorage.instance.refFromURL(url);
+  String imageUrl = await gsRef.getDownloadURL();
+  return imageUrl;
 }
