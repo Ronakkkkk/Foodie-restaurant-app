@@ -46,7 +46,7 @@ class CustomAppBar extends StatelessWidget {
                 : null,
             child: Center(
               child: Icon(
-                rightIcon != null ? rightIcon : null,
+                rightIcon,
                 color: iconColor,
                 size: 25,
               ),

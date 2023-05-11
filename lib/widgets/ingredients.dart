@@ -1,11 +1,11 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie/constants/colors.dart';
+import 'package:foodie/widgets/cloud_image_loader.dart';
 
 class Ingi extends StatelessWidget {
   final List<dynamic> ingis;
 
-  Ingi(this.ingis);
+  const Ingi(this.ingis, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,15 +40,7 @@ class Ingi extends StatelessWidget {
             color: Colors.white,
           ),
           // child: Text('${list[index]}'),
-          child: FutureBuilder<String>(
-            builder: (context, snapshot) {
-              if(!snapshot.hasData){
-                return Center(child: CircularProgressIndicator());
-              }
-              return Image.network(snapshot.data!);
-            },
-            future: fetchImage(ingis[index]['ingiImage']),
-          ),
+          child: CloudImageLoader(ingis[index]['ingiImage']),
         ),
         const SizedBox(
           height: 7,
@@ -58,10 +50,4 @@ class Ingi extends StatelessWidget {
       ],
     );
   }
-}
-
-Future<String> fetchImage(String url) async {
-  final gsRef = FirebaseStorage.instance.refFromURL(url);
-  String imageUrl = await gsRef.getDownloadURL();
-  return imageUrl;
 }

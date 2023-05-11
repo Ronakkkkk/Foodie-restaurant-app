@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
@@ -7,15 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:foodie/constants/colors.dart';
 import 'package:foodie/constants/texts.dart';
 import 'package:foodie/screens/menu_screen/food_quantity.dart';
+import 'package:foodie/widgets/cloud_image_loader.dart';
 
 import 'package:foodie/widgets/my_app_bar.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodie/widgets/ingredients.dart';
+import 'package:foodie/widgets/string_casing.dart';
 
 class MenuScreen extends StatelessWidget {
   final String d_id;
-  const MenuScreen(this.d_id);
+  const MenuScreen(this.d_id, {super.key});
 
   // Future<void> fetchMenuData() async {
   //   DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
@@ -72,7 +72,7 @@ class MenuScreen extends StatelessWidget {
                     height: 30,
                   ),
                   Text(
-                    data['name'],
+                    data['name'].toString().toTitleCase(),
                     style: kBigText.copyWith(
                         fontSize: 30, fontWeight: FontWeight.bold),
                   ),
@@ -120,14 +120,10 @@ class MenuScreen extends StatelessWidget {
                   ),
                   Ingi(data['ingredients']),
                   Container(
-                    padding: const EdgeInsets.all(12),
-                    height: 200,
-                    width: 250,
-                    child: const Image(
-                      image: AssetImage('assets/images/burger.png'),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
+                      padding: const EdgeInsets.all(12),
+                      height: 200,
+                      width: 250,
+                      child: CloudImageLoader(data['image'])),
                   FoodPrice(price: data['price'])
                 ],
               ),
