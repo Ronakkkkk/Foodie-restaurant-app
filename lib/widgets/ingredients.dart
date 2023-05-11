@@ -32,24 +32,14 @@ class Ingi extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 50,
-          width: 50,
-          padding: const EdgeInsets.all(13),
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white,
-          ),
-          // child: Text('${list[index]}'),
-          child: FutureBuilder<String>(
-            builder: (context, snapshot) {
-              if(!snapshot.hasData){
-                return Center(child: CircularProgressIndicator());
-              }
-              return Image.network(snapshot.data!);
-            },
-            future: fetchImage(ingis[index]['ingiImage']),
-          ),
-        ),
+            height: 50,
+            width: 50,
+            padding: const EdgeInsets.all(13),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+            ),
+            child: Image.asset(ingis[index]['ingiImage'])),
         const SizedBox(
           height: 7,
         ),

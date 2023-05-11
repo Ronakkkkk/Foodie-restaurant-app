@@ -15,7 +15,8 @@ class MainCartPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.black54,
         body: Container(
-          padding: const EdgeInsets.only(left: 25, right: 25, bottom: 25, top: 40),
+          padding:
+              const EdgeInsets.only(left: 25, right: 25, bottom: 25, top: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

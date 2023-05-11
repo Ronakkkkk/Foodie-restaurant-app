@@ -104,17 +104,37 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Container(
-            margin:
-                const EdgeInsets.only(right: 20, left: 20, top: 7, bottom: 0),
-            child: FutureBuilder<String>(
-                builder: (context, snapshot) {
-                  if(!snapshot.hasData){
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  return Image.network(snapshot.data!, fit: BoxFit.cover);
-                },
-                future: fetchImage(menu[index]['image'])),
+          // FutureBuilder(
+          //   future: fetchImage(menu[index]['image']),
+          //   builder: ((context, AsyncSnapshot<String> snapshot) {
+          //     if (snapshot.connectionState == ConnectionState.done &&
+          //         snapshot.hasData) {
+          //       return Container(
+          //         margin:
+          //             EdgeInsets.only(right: 20, left: 20, top: 7, bottom: 0),
+          //         child: Image(
+          //           image: NetworkImage(snapshot.data!),
+          //           fit: BoxFit.contain,
+          //         ),
+          //       );
+          //     }
+          //     if (snapshot.connectionState == ConnectionState.waiting ||
+          //         !snapshot.hasData) {
+          //       return CircularProgressIndicator();
+          //     }
+          //     return Container();
+          //   }),
+          // ),
+          Center(
+            child: Container(
+              margin: EdgeInsets.only(right: 20, left: 20, top: 7, bottom: 0),
+              child: Image(
+                image: index % 2 != 0
+                    ? AssetImage('assets/images/burger.png')
+                    : AssetImage('assets/images/bowl.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
           Container(
             padding: const EdgeInsets.only(left: 20),
@@ -178,7 +198,7 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
                               : kPrimaryColor),
                       child: Center(
                         child: Text(
-                          'Sell',
+                          'Buy',
                           style: kBigText.copyWith(
                               fontSize: 14, color: Colors.white),
                         ),
