@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CartQuantity extends StatefulWidget {
-  const CartQuantity({super.key});
+  const CartQuantity({
+    super.key,
+  });
 
   @override
   State<CartQuantity> createState() => _CartQuantityState();
@@ -12,6 +14,18 @@ class _CartQuantityState extends State<CartQuantity> {
   int index = 1;
   int wPrice = 12;
   int dPrice = 50;
+
+  void _decrement() {
+    setState(() {
+      index--;
+    });
+  }
+
+  void _increment() {
+    setState(() {
+      index++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +47,7 @@ class _CartQuantityState extends State<CartQuantity> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        index--;
-                      });
-                    },
+                    onTap: _decrement,
                     child: Container(
                       height: 25,
                       width: 25,
@@ -63,11 +73,7 @@ class _CartQuantityState extends State<CartQuantity> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        index++;
-                      });
-                    },
+                    onTap: _increment,
                     child: Container(
                       height: 25,
                       width: 25,

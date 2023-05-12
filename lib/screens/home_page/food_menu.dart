@@ -108,9 +108,12 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
-              margin:
-                  const EdgeInsets.only(right: 20, left: 20, top: 7, bottom: 0),
-              child: CloudImageLoader(menu[index]['image'])),
+            width: double.maxFinite,
+            height: 115,
+            margin:
+                const EdgeInsets.only(right: 20, left: 20, top: 7, bottom: 0),
+            child: (CloudImageLoader(menu[index]['image'])),
+          ),
           Container(
             padding: const EdgeInsets.only(left: 20),
             child: Column(
@@ -135,7 +138,7 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
                 Row(
                   children: [
                     Text(
-                      "\$",
+                      "Rs.",
                       style: kSmallText.copyWith(
                           fontSize: 15,
                           color: index % 2 == 0 ? Colors.white : kPrimaryColor,
@@ -146,20 +149,20 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
                       width: 5,
                     ),
                     Text(
-                      '14',
+                      menu[index]['price'].toString(),
                       style: kSmallText.copyWith(
                           fontSize: 22,
                           color: index % 2 == 0 ? Colors.white : kPrimaryColor,
                           fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      ".45",
-                      style: kSmallText.copyWith(
-                          fontSize: 17,
-                          color: index % 2 == 0 ? Colors.white : kPrimaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontFeatures: [const FontFeature.superscripts()]),
-                    ),
+                    // Text(
+                    //   ".0",
+                    //   style: kSmallText.copyWith(
+                    //       fontSize: 17,
+                    //       color: index % 2 == 0 ? Colors.white : kPrimaryColor,
+                    //       fontWeight: FontWeight.bold,
+                    //       fontFeatures: [const FontFeature.superscripts()]),
+                    // ),
                     const SizedBox(
                       width: 15,
                     ),
@@ -188,10 +191,4 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
       ),
     ),
   );
-}
-
-Future<String> fetchImage(String url) async {
-  final gsRef = FirebaseStorage.instance.refFromURL(url);
-  String imageUrl = await gsRef.getDownloadURL();
-  return imageUrl;
 }

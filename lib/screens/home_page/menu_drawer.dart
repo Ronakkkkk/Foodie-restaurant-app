@@ -1,9 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:foodie/constants/colors.dart';
 import 'package:foodie/constants/texts.dart';
+import 'package:foodie/firebase/auth.dart';
+import 'package:foodie/screens/login_screen/main_intro_screen.dart';
 import 'package:foodie/screens/profile_screen/main_profile_screen.dart';
 import 'package:foodie/screens/cart_screen/main_cart_page.dart';
 import 'package:foodie/screens/promo_screen/main_promo_screen.dart';
@@ -115,7 +116,17 @@ class DrawerInfo extends StatelessWidget {
                 DrawerTitles(
                   'Logout',
                   FontAwesomeIcons.rightFromBracket,
-                  onTap: () {},
+                  onTap: () {
+                    try {
+                      auth().signout();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => MainIntroScreen())));
+                    } catch (e) {
+                      return e;
+                    }
+                  },
                 )
               ],
             ),

@@ -1,21 +1,35 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodie/constants/colors.dart';
 import 'package:foodie/screens/cart_screen/widgets/bottom_row.dart';
 
 class TotalPrice extends StatelessWidget {
-  const TotalPrice({Key? key}) : super(key: key);
+  final List<QueryDocumentSnapshot> cartItems;
+  const TotalPrice({Key? key, required this.cartItems}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    int subtotal = 0;
+    for (var cartItem in cartItems) {
+      int price = cartItem['price'];
+      subtotal += price;
+    }
+
+    double discount = 0.0;
+    double deliveryCharge = 50;
+    double total = subtotal - discount + deliveryCharge;
     return Column(
       children: [
         const Divider(
           color: Colors.grey,
         ),
-        BottomRow('Subtotal', '144.49', 15, FontWeight.normal),
-        BottomRow('Discount', '0', 15, FontWeight.normal),
-        BottomRow('Delivery charge', '3.5', 15, FontWeight.normal),
+        BottomRow(
+            'Subtotal', subtotal.toStringAsFixed(2), 15, FontWeight.normal),
+        BottomRow(
+            'Discount', discount.toStringAsFixed(2), 15, FontWeight.normal),
+        BottomRow('Delivery charge', deliveryCharge.toStringAsFixed(2), 15,
+            FontWeight.normal),
         const SizedBox(
           height: 2,
         ),
@@ -25,7 +39,7 @@ class TotalPrice extends StatelessWidget {
         const SizedBox(
           height: 2,
         ),
-        BottomRow('Total', '148.4', 22, FontWeight.bold),
+        BottomRow('Total', total.toStringAsFixed(2), 22, FontWeight.bold),
         const SizedBox(
           height: 22,
         ),
