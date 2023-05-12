@@ -9,6 +9,9 @@ import 'package:foodie/constants/colors.dart';
 import 'package:foodie/constants/texts.dart';
 import 'package:foodie/screens/menu_screen/main_menu_screen.dart';
 
+import 'package:foodie/widgets/string_casing.dart';
+import 'package:foodie/widgets/cloud_image_loader.dart';
+
 class FoodMenu extends StatefulWidget {
   final int selected;
   final Function callback;
@@ -104,45 +107,17 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          // FutureBuilder(
-          //   future: fetchImage(menu[index]['image']),
-          //   builder: ((context, AsyncSnapshot<String> snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.done &&
-          //         snapshot.hasData) {
-          //       return Container(
-          //         margin:
-          //             EdgeInsets.only(right: 20, left: 20, top: 7, bottom: 0),
-          //         child: Image(
-          //           image: NetworkImage(snapshot.data!),
-          //           fit: BoxFit.contain,
-          //         ),
-          //       );
-          //     }
-          //     if (snapshot.connectionState == ConnectionState.waiting ||
-          //         !snapshot.hasData) {
-          //       return CircularProgressIndicator();
-          //     }
-          //     return Container();
-          //   }),
-          // ),
-          Center(
-            child: Container(
-              margin: EdgeInsets.only(right: 20, left: 20, top: 7, bottom: 0),
-              child: Image(
-                image: index % 2 != 0
-                    ? AssetImage('assets/images/burger.png')
-                    : AssetImage('assets/images/bowl.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
+          Container(
+              margin:
+                  const EdgeInsets.only(right: 20, left: 20, top: 7, bottom: 0),
+              child: CloudImageLoader(menu[index]['image'])),
           Container(
             padding: const EdgeInsets.only(left: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  menu[index]['name'],
+                  menu[index]['name'].toString().toTitleCase(),
                   textAlign: TextAlign.left,
                   style: kBigText.copyWith(
                       fontSize: 20,
@@ -152,7 +127,7 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
                   height: 5,
                 ),
                 Text(
-                  menu[index]['cuisine'],
+                  menu[index]['cuisine'].toString(),
                   style: kSmallText.copyWith(
                       fontSize: 16, color: const Color(0xff747478)),
                 ),
