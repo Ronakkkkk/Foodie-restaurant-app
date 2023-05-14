@@ -134,13 +134,16 @@ class _MenuScreenState extends State<MenuScreen> {
                       child: CloudImageLoader(data['image'])),
                   FoodPrice(
                     price: data['price'],
+                    onQuantityChanged: (p0) {
+                      quantity = p0;
+                    },
                     onplaceorder: () {
                       try {
                         CartService.addToCart(
                             image: data['image'],
                             name: data['name'],
                             price: data['price'],
-                            quantity: 1,
+                            quantity: quantity,
                             userId: userId);
                         Navigator.push(
                             context,

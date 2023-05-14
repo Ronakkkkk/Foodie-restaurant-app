@@ -4,10 +4,19 @@ import 'package:foodie/constants/texts.dart';
 import 'package:foodie/screens/cart_screen/quantity.dart';
 import 'package:foodie/widgets/cloud_image_loader.dart';
 
-class CartBox extends StatelessWidget {
+class CartBox extends StatefulWidget {
   final List<QueryDocumentSnapshot> cartItems;
-  CartBox({Key? key, required this.cartItems});
 
+  CartBox({
+    Key? key,
+    required this.cartItems,
+  });
+
+  @override
+  State<CartBox> createState() => _CartBoxState();
+}
+
+class _CartBoxState extends State<CartBox> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -23,12 +32,12 @@ class CartBox extends StatelessWidget {
                 const SizedBox(
                   width: 20,
                 )),
-            itemCount: cartItems.length,
+            itemCount: widget.cartItems.length,
             itemBuilder: (
               context,
               index,
             ) {
-              return _cartContent(index, cartItems);
+              return _cartContent(index, widget.cartItems);
             },
           ),
         ),
@@ -44,7 +53,7 @@ class CartBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
             height: 250,
             width: 210,
             decoration: BoxDecoration(
@@ -76,7 +85,21 @@ class CartBox extends StatelessWidget {
                   style: kSmallText.copyWith(color: Colors.grey, fontSize: 16)),
             ],
           ),
-          const CartQuantity()
+          CartQuantity(
+            intialquantity: data[index]['quantity'],
+            onQuantityChanged: (newQuantity) {
+              if (newQuantity > 0) {
+                // Updates the 'quantity' field in the Firebase document
+                data[index].reference.update({'quantity': newQuantity});
+              } else {
+                // Deletes the document if quantity is 0
+                data[index].reference.delete();
+                setState(() {
+                  data.removeAt(index);
+                });
+              }
+            },
+          )
         ],
       ),
     );

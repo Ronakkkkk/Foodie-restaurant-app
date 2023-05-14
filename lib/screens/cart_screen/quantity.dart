@@ -2,28 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CartQuantity extends StatefulWidget {
-  const CartQuantity({
-    super.key,
-  });
+  final int intialquantity;
+  final Function(int) onQuantityChanged;
+  const CartQuantity(
+      {super.key,
+      required this.intialquantity,
+      required this.onQuantityChanged});
 
   @override
   State<CartQuantity> createState() => _CartQuantityState();
 }
 
 class _CartQuantityState extends State<CartQuantity> {
-  int index = 1;
+  late int index = widget.intialquantity;
   int wPrice = 12;
   int dPrice = 50;
 
   void _decrement() {
     setState(() {
       index--;
+      widget.onQuantityChanged(index);
     });
   }
 
   void _increment() {
     setState(() {
       index++;
+      widget.onQuantityChanged(index);
     });
   }
 

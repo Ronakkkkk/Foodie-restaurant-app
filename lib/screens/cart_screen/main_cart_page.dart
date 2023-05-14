@@ -20,11 +20,31 @@ class _MainCartPageState extends State<MainCartPage> {
   late CollectionReference cartCollection;
   late List<QueryDocumentSnapshot> cartItems = [];
   int cartQuantity = 1;
+  int currentindex = 0;
+  int currentquanity = 2;
 
   @override
   void initState() {
     super.initState();
     fetchCartItems();
+    createCartItemsStream();
+  }
+
+  Stream<List<QueryDocumentSnapshot>> createCartItemsStream() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+    if (user != null) {
+      String userId = user.uid;
+
+      return FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .collection('cart')
+          .snapshots()
+          .map((snapshot) => snapshot.docs.toList());
+    }
+
+    return Stream<List<QueryDocumentSnapshot>>.empty();
   }
 
   Future<void> fetchCartItems() async {
@@ -80,15 +100,17 @@ class _MainCartPageState extends State<MainCartPage> {
               const SizedBox(
                 height: 20,
               ),
-              CartBox(
-                cartItems: cartItems,
-              ),
+              cartItems.isEmpty
+                  ? Text("Cart is Empty",
+                      style:
+                          kBigText.copyWith(fontSize: 20, color: Colors.white))
+                  : CartBox(
+                      cartItems: cartItems,
+                    ),
               const SizedBox(
                 height: 8,
               ),
-              TotalPrice(
-                cartItems: cartItems,
-              )
+              TotalPrice(cartItemsStream: createCartItemsStream())
             ],
           ),
         ),
