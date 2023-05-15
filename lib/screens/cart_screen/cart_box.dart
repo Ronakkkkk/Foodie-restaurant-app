@@ -1,10 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie/constants/texts.dart';
 import 'package:foodie/screens/cart_screen/quantity.dart';
+import 'package:foodie/widgets/cloud_image_loader.dart';
 
-class CartBox extends StatelessWidget {
-  const CartBox({Key? key}) : super(key: key);
+class CartBox extends StatefulWidget {
+  final List<QueryDocumentSnapshot> cartItems;
 
+  CartBox({
+    Key? key,
+    required this.cartItems,
+  });
+
+  @override
+  State<CartBox> createState() => _CartBoxState();
+}
+
+class _CartBoxState extends State<CartBox> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -13,12 +25,19 @@ class CartBox extends StatelessWidget {
           height: 378,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            separatorBuilder: ((context, index) => const SizedBox(
+            separatorBuilder: ((
+              context,
+              index,
+            ) =>
+                const SizedBox(
                   width: 20,
                 )),
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return _cartContent(index);
+            itemCount: widget.cartItems.length,
+            itemBuilder: (
+              context,
+              index,
+            ) {
+              return _cartContent(index, widget.cartItems);
             },
           ),
         ),
@@ -26,7 +45,7 @@ class CartBox extends StatelessWidget {
     );
   }
 
-  Widget _cartContent(int index) {
+  Widget _cartContent(int index, List data) {
     return Container(
       height: 350,
       width: 210,
@@ -34,19 +53,19 @@ class CartBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
             height: 250,
             width: 210,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
                 color: const Color(0xffDCDBDB)),
-            child: const Image(image: AssetImage('assets/images/bowl.png')),
+            child: CloudImageLoader(data[index]['image']),
           ),
           const SizedBox(
             height: 15,
           ),
           Text(
-            'American Salad With Seasoning',
+            data[index]['name'],
             style: kSmallText.copyWith(
                 fontWeight: FontWeight.w500, fontSize: 18, color: Colors.white),
           ),
@@ -56,17 +75,31 @@ class CartBox extends StatelessWidget {
           Row(
             children: [
               Text(
-                '\$',
+                'Rs.',
                 style: kSmallText.copyWith(color: Colors.white, fontSize: 10),
               ),
               const SizedBox(
                 width: 4,
               ),
-              Text('12.45',
+              Text(data[index]['price'].toString(),
                   style: kSmallText.copyWith(color: Colors.grey, fontSize: 16)),
             ],
           ),
-          const CartQuantity()
+          CartQuantity(
+            intialquantity: data[index]['quantity'],
+            onQuantityChanged: (newQuantity) {
+              if (newQuantity > 0) {
+                // Updates the 'quantity' field in the Firebase document
+                data[index].reference.update({'quantity': newQuantity});
+              } else {
+                // Deletes the document if quantity is 0
+                data[index].reference.delete();
+                setState(() {
+                  data.removeAt(index);
+                });
+              }
+            },
+          )
         ],
       ),
     );
