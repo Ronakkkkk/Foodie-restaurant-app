@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:foodie/constants/texts.dart';
@@ -7,10 +8,45 @@ import 'package:foodie/screens/login_screen/login_screen.dart';
 
 import 'package:neopop/neopop.dart';
 
+import '../../firebase/userInfo.dart';
+
 // ignore: use_key_in_widget_constructors
 class RegisterInfoScreen extends StatelessWidget {
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final intageController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  UserFirestoreService firestoreService = UserFirestoreService();
+
+  Future<void> registerUser(BuildContext context) async {
+    try {
+      // Get the current user ID
+      User? currentUser = _auth.currentUser;
+      String? userId = currentUser?.uid;
+
+      if (userId != null) {
+        // Get the user information from the text fields
+        String name = nameController.text;
+        String email = emailController.text;
+
+        // Add the user information to Firestore
+        await firestoreService.addUser(
+          userId,
+          name,
+          email,
+        );
+
+        // Navigate to the home page
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => FoodPage()),
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -73,9 +109,9 @@ class RegisterInfoScreen extends StatelessWidget {
                           //       fontSize: 24,
                           //       fontWeight: FontWeight.w100),
                           // ),
-                          _textField(passwordController, 'Full Name'),
-                          _textField(passwordController, 'Age'),
-                          _textField(passwordController, 'Email'),
+                          _textField(nameController, 'Full Name'),
+                          //_textField(ageController, 'Age'),
+                          _textField(emailController, 'Email'),
                         ],
                       ),
                     ),
@@ -120,21 +156,11 @@ class RegisterInfoScreen extends StatelessWidget {
                     color: Colors.white,
                     onTapUp: () {},
                     onTapDown: () async {
-                      try {
-                        await auth().createnwithEmailandpassword(
-                            email: emailController.text.trim(),
-                            password: passwordController.text.trim());
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => FoodPage())));
-                      } catch (e) {
-                        print(e);
-                      }
+                      await registerUser(context);
                     },
                     child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 15),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

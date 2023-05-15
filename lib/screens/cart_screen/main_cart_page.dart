@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodie/constants/colors.dart';
@@ -6,8 +8,68 @@ import 'package:foodie/screens/cart_screen/cart_box.dart';
 import 'package:foodie/screens/cart_screen/total_price.dart';
 import 'package:foodie/widgets/custom_app_bar.dart';
 
-class MainCartPage extends StatelessWidget {
+class MainCartPage extends StatefulWidget {
   const MainCartPage({Key? key}) : super(key: key);
+
+  @override
+  State<MainCartPage> createState() => _MainCartPageState();
+}
+
+class _MainCartPageState extends State<MainCartPage> {
+  late String userId;
+  late CollectionReference cartCollection;
+  late List<QueryDocumentSnapshot> cartItems = [];
+  int cartQuantity = 1;
+  int currentindex = 0;
+  int currentquanity = 2;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCartItems();
+    createCartItemsStream();
+  }
+
+  Stream<List<QueryDocumentSnapshot>> createCartItemsStream() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+    if (user != null) {
+      String userId = user.uid;
+
+      return FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .collection('cart')
+          .snapshots()
+          .map((snapshot) => snapshot.docs.toList());
+    }
+
+    return Stream<List<QueryDocumentSnapshot>>.empty();
+  }
+
+  Future<void> fetchCartItems() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+    if (user != null) {
+      String userId = user.uid;
+
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .collection('cart')
+          .get();
+
+      setState(() {
+        cartItems = snapshot.docs; // Store the documents in the list
+      });
+    }
+  }
+
+  void handleCartQuantityChanged(int newQuantity) {
+    setState(() {
+      cartQuantity = newQuantity;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +77,8 @@ class MainCartPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.black54,
         body: Container(
-          padding: const EdgeInsets.only(left: 25, right: 25, bottom: 25, top: 40),
+          padding:
+              const EdgeInsets.only(left: 25, right: 25, bottom: 25, top: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -37,11 +100,17 @@ class MainCartPage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const CartBox(),
+              cartItems.isEmpty
+                  ? Text("Cart is Empty",
+                      style:
+                          kBigText.copyWith(fontSize: 20, color: Colors.white))
+                  : CartBox(
+                      cartItems: cartItems,
+                    ),
               const SizedBox(
                 height: 8,
               ),
-              const TotalPrice()
+              TotalPrice(cartItemsStream: createCartItemsStream())
             ],
           ),
         ),

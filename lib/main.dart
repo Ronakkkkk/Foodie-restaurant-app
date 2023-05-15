@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 import 'package:foodie/Firebase/auth.dart';
 import 'package:foodie/screens/home_page/main_food_page.dart';
 import 'package:foodie/screens/login_screen/main_intro_screen.dart';
-
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -28,10 +25,10 @@ class MyApp extends StatelessWidget {
       providers: [
         Provider<auth>(create: (_) => auth()),
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Foodie',
-          home: FoodPage()),
+          home: AuthenticationWrapper()),
     );
   }
 }

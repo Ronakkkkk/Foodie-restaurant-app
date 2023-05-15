@@ -9,27 +9,32 @@ class Ingi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 47),
-          height: 80,
-          child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return _ingicontext(index);
-              },
-              separatorBuilder: ((context, index) => const SizedBox(
-                    width: 40,
-                  )),
-              itemCount: ingis.length),
-        ),
-      ],
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 240,
+            height: 80,
+            child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return _ingicontext(index);
+                },
+                separatorBuilder: ((context, index) => const SizedBox(
+                      width: 40,
+                    )),
+                itemCount: ingis.length),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _ingicontext(int index) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
           height: 50,

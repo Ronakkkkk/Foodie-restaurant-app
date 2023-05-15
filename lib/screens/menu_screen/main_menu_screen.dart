@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 
 import 'package:foodie/constants/colors.dart';
 import 'package:foodie/constants/texts.dart';
+import 'package:foodie/screens/cart_screen/main_cart_page.dart';
+import 'package:foodie/screens/cart_screen/widgets/add_to_cart_logic.dart';
 import 'package:foodie/screens/menu_screen/food_quantity.dart';
 import 'package:foodie/widgets/cloud_image_loader.dart';
 
@@ -13,26 +16,31 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodie/widgets/ingredients.dart';
 import 'package:foodie/widgets/string_casing.dart';
 
-class MenuScreen extends StatelessWidget {
+class MenuScreen extends StatefulWidget {
   final String d_id;
   const MenuScreen(this.d_id, {super.key});
 
-  // Future<void> fetchMenuData() async {
-  //   DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-  //       .collection("food-items")
-  //       .doc(d_id)
-  //       .get();
-  //   log(documentSnapshot.data().toString());
-  // }
+  @override
+  State<MenuScreen> createState() => _MenuScreenState();
+}
+
+class _MenuScreenState extends State<MenuScreen> {
+  int quantity = 1;
+  late String userId;
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+    if (user != null) {
+      userId = user.uid;
+    }
     return Scaffold(
       backgroundColor: kBackground,
       body: StreamBuilder<DocumentSnapshot>(
           stream: FirebaseFirestore.instance
               .collection('food-items')
-              .doc(d_id)
+              .doc(widget.d_id)
               .snapshots(),
           builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             if (snapshot.hasError) {
@@ -116,15 +124,36 @@ class MenuScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(
-                    height: 18,
+                    height: 20,
                   ),
-                  Ingi(data['ingredients']),
+                  Center(child: Ingi(data['ingredients'])),
                   Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(8),
                       height: 200,
                       width: 250,
                       child: CloudImageLoader(data['image'])),
-                  FoodPrice(price: data['price'])
+                  FoodPrice(
+                    price: data['price'],
+                    onQuantityChanged: (p0) {
+                      quantity = p0;
+                    },
+                    onplaceorder: () {
+                      try {
+                        CartService.addToCart(
+                            image: data['image'],
+                            name: data['name'],
+                            price: data['price'],
+                            quantity: quantity,
+                            userId: userId);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MainCartPage()));
+                      } catch (e) {
+                        print(e);
+                      }
+                    },
+                  )
                 ],
               ),
             );

@@ -10,7 +10,13 @@ import 'package:foodie/widgets/triangle.dart';
 
 class FoodPrice extends StatefulWidget {
   final int price;
-  const FoodPrice({super.key, required this.price});
+  final Function()? onplaceorder;
+  final Function(int)? onQuantityChanged;
+  const FoodPrice(
+      {super.key,
+      required this.price,
+      this.onplaceorder,
+      this.onQuantityChanged});
 
   @override
   State<FoodPrice> createState() => _FoodPriceState();
@@ -31,6 +37,10 @@ class _FoodPriceState extends State<FoodPrice> {
     setState(() {
       calculatedPrice = index * widget.price;
     });
+
+    if (widget.onQuantityChanged != null) {
+      widget.onQuantityChanged!(index);
+    }
   }
 
   @override
@@ -213,31 +223,38 @@ class _FoodPriceState extends State<FoodPrice> {
                           MaterialPageRoute(
                               builder: (context) => const MainCartPage()));
                     },
-                    child: Container(
-                      height: 53,
-                      width: 158,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: kPrimaryColor,
-                      ),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Place Order',
-                              style: kBigText.copyWith(
-                                  fontSize: 15, color: Colors.white),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Icon(
-                              FontAwesomeIcons.cartShopping,
-                              size: 15,
-                              color: Colors.grey,
-                            )
-                          ],
+                    child: GestureDetector(
+                      onTap: () {
+                        if (widget.onplaceorder != null) {
+                          widget.onplaceorder!();
+                        }
+                      },
+                      child: Container(
+                        height: 53,
+                        width: 158,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: kPrimaryColor,
+                        ),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Place Order',
+                                style: kBigText.copyWith(
+                                    fontSize: 15, color: Colors.white),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              const Icon(
+                                FontAwesomeIcons.cartShopping,
+                                size: 15,
+                                color: Colors.grey,
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
