@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:foodie/Firebase/auth.dart';
 import 'package:foodie/screens/home_page/main_food_page.dart';
 import 'package:foodie/screens/login_screen/main_intro_screen.dart';
+import 'package:foodie/screens/login_screen/register_info.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -25,10 +26,10 @@ class MyApp extends StatelessWidget {
       providers: [
         Provider<auth>(create: (_) => auth()),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Foodie',
-          home: AuthenticationWrapper()),
+          home: RegisterInfoScreen()),
     );
   }
 }
