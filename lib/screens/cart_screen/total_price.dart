@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodie/constants/colors.dart';
 import 'package:foodie/screens/cart_screen/widgets/bottom_row.dart';
+import 'package:foodie/screens/checkout_screen/checkout.dart';
 
 class TotalPrice extends StatelessWidget {
   final Stream<List<QueryDocumentSnapshot>> cartItemsStream;
@@ -78,15 +79,21 @@ class TotalPrice extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   color: const Color(0xffFEC302),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text('Proceed to Checkout'),
-                    Icon(
-                      FontAwesomeIcons.anglesRight,
-                      size: 15,
-                    ),
-                  ],
+                child: GestureDetector(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CheckoutScreen())),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text('Proceed to Checkout'),
+                      Icon(
+                        FontAwesomeIcons.anglesRight,
+                        size: 15,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
