@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:foodie/Firebase/auth.dart';
+import 'package:foodie/screens/checkout_screen/checkout.dart';
 import 'package:foodie/screens/home_page/main_food_page.dart';
 import 'package:foodie/screens/login_screen/main_intro_screen.dart';
 import 'package:foodie/screens/login_screen/register_info.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Foodie',
-          home: RegisterInfoScreen()),
+          home: MainIntroScreen()),
     );
   }
 }
