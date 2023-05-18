@@ -96,10 +96,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
               ),
               Container(
-                  margin: const EdgeInsets.only(left: 30, top: 16, bottom: 20),
+                  margin: const EdgeInsets.only(left: 30, top: 6, bottom: 20),
                   child: Text(
                     "Delivery Address",
-                    style: kBigText.copyWith(fontSize: 22),
+                    style: kBigText.copyWith(fontSize: 18),
                   )),
               //delivery address
 
@@ -108,10 +108,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
               //payment method
               Container(
-                margin: const EdgeInsets.only(left: 30, top: 52, bottom: 20),
+                margin: const EdgeInsets.only(left: 30, top: 30, bottom: 20),
                 child: Text(
                   "Payment Method",
-                  style: kBigText.copyWith(fontSize: 22),
+                  style: kBigText.copyWith(fontSize: 18),
                 ),
               ),
 
@@ -120,10 +120,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
               //special instructions
               Container(
-                margin: const EdgeInsets.only(left: 30, top: 52, bottom: 20),
+                margin: const EdgeInsets.only(left: 30, top: 32, bottom: 20),
                 child: Text(
                   "Special Instructions",
-                  style: kBigText.copyWith(fontSize: 22),
+                  style: kBigText.copyWith(fontSize: 18),
                 ),
               ),
               Container(
