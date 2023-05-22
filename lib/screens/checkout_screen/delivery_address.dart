@@ -54,7 +54,7 @@ class DeliveryAddressListView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'lado',
+                  'Baneshwor',
                   style: kCredText.copyWith(fontSize: 18, color: textColor),
                 ),
                 Icon(
