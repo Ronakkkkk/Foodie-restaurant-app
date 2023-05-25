@@ -104,7 +104,7 @@ class _FoodPriceState extends State<FoodPrice> {
                       GestureDetector(
                         onTap: () {
                           setState(() {
-                            index > 0 ? index-- : index = 0;
+                            index > 1 ? index-- : index = 1;
                             updateCalculatedPrice();
                           });
                         },

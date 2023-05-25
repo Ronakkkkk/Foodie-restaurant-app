@@ -24,7 +24,7 @@ class DrawerInfo extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                MaterialPageRoute(builder: (context) => ProfileScreen()),
               );
             },
             child: Row(
@@ -109,8 +109,7 @@ class DrawerInfo extends StatelessWidget {
                     onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const ProfileScreen()),
+                    MaterialPageRoute(builder: (context) => ProfileScreen()),
                   );
                 }),
                 DrawerTitles(

@@ -18,11 +18,13 @@ class UserFirestoreService {
     String userId,
     String name,
     String email,
+    String address,
   ) async {
     try {
       await _usersCollection.doc(userId).set({
         'name': name,
         'email': email,
+        'address': address,
 
         // Add any additional user data you want to store
       });
