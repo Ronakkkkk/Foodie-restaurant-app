@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:foodie/constants/texts.dart';
-import 'package:foodie/firebase/auth.dart';
+
 import 'package:foodie/screens/home_page/main_food_page.dart';
 import 'package:foodie/screens/login_screen/login_screen.dart';
 
@@ -10,11 +10,11 @@ import 'package:neopop/neopop.dart';
 
 import '../../firebase/userInfo.dart';
 
-// ignore: use_key_in_widget_constructors
+// ignore: use_key_in_widget_constructors, must_be_immutable
 class RegisterInfoScreen extends StatelessWidget {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
-  final intageController = TextEditingController();
+  final addresscontroller = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   UserFirestoreService firestoreService = UserFirestoreService();
 
@@ -28,13 +28,10 @@ class RegisterInfoScreen extends StatelessWidget {
         // Get the user information from the text fields
         String name = nameController.text;
         String email = emailController.text;
+        String address = addresscontroller.text;
 
         // Add the user information to Firestore
-        await firestoreService.addUser(
-          userId,
-          name,
-          email,
-        );
+        await firestoreService.addUser(userId, name, email, address);
 
         // Navigate to the home page
         Navigator.push(
@@ -69,8 +66,8 @@ class RegisterInfoScreen extends StatelessWidget {
               children: [
                 Container(
                     padding: const EdgeInsets.only(bottom: 10),
-                    width: 180,
-                    height: 180,
+                    width: 165,
+                    height: 165,
                     child: const Image(
                         image: AssetImage('assets/images/vrpotato.png'),
                         fit: BoxFit.cover)),
@@ -95,23 +92,23 @@ class RegisterInfoScreen extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'Let\'s start eating!',
+                            textDirection: TextDirection.ltr,
+                            textAlign: TextAlign.left,
+                            style: kCredTextLight.copyWith(
+                                color: const Color(0xff6B6B6B),
+                                fontSize: 24,
+                                fontWeight: FontWeight.w100),
+                          ),
+                          SizedBox(
                             height: 30,
                           ),
-                          // const SizedBox(
-                          //   height: 10,
-                          // ),
-                          // Text(
-                          //   'Welcome home foodie,\n Let\'s start eating!',
-                          //   textDirection: TextDirection.ltr,
-                          //   textAlign: TextAlign.left,
-                          //   style: kcredtextlight.copyWith(
-                          //       color: const Color(0xff6B6B6B),
-                          //       fontSize: 24,
-                          //       fontWeight: FontWeight.w100),
-                          // ),
                           _textField(nameController, 'Full Name'),
-                          //_textField(ageController, 'Age'),
                           _textField(emailController, 'Email'),
+                          _textField(addresscontroller, 'Address'),
                         ],
                       ),
                     ),
@@ -120,7 +117,7 @@ class RegisterInfoScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(
-              height: 48,
+              height: 30,
             ),
             Container(
               height: 100,
@@ -200,7 +197,7 @@ Widget _textField(TextEditingController controller, String hinttext) {
         ),
       ),
       const SizedBox(
-        height: 5,
+        height: 10,
       )
     ],
   );

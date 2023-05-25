@@ -6,6 +6,7 @@ import 'package:foodie/Firebase/auth.dart';
 import 'package:foodie/screens/checkout_screen/checkout.dart';
 import 'package:foodie/screens/home_page/main_food_page.dart';
 import 'package:foodie/screens/login_screen/main_intro_screen.dart';
+import 'package:foodie/screens/login_screen/register_info.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Foodie',
-          home: MainIntroScreen()),
+          home: CheckoutScreen()),
     );
   }
 }
