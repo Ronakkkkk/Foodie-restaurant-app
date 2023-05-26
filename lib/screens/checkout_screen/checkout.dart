@@ -7,6 +7,8 @@ import 'package:foodie/screens/checkout_screen/delivery_address.dart';
 import 'package:foodie/screens/checkout_screen/payment_method.dart';
 
 class CheckoutScreen extends StatefulWidget {
+  const CheckoutScreen({super.key});
+
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
 }
@@ -152,7 +154,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => CheckoutSummary(
-                          deliveryAddresses[selectedDeliveryAddress],
+                          'imadol',
                           paymentMethods[selectedPaymentMethod],
                           specialInstructions),
                     ),
