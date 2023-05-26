@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:foodie/constants/texts.dart';
 import 'package:foodie/screens/cart_screen/quantity.dart';
 import 'package:foodie/widgets/cloud_image_loader.dart';
+import 'package:foodie/widgets/string_casing.dart';
 
 class CartBox extends StatefulWidget {
   final List<QueryDocumentSnapshot> cartItems;
 
-  CartBox({
-    Key? key,
+  const CartBox({
+    super.key,
     required this.cartItems,
   });
 
@@ -65,7 +66,7 @@ class _CartBoxState extends State<CartBox> {
             height: 15,
           ),
           Text(
-            data[index]['name'],
+            data[index]['name'].toString().toTitleCase(),
             style: kSmallText.copyWith(
                 fontWeight: FontWeight.w500, fontSize: 18, color: Colors.white),
           ),
