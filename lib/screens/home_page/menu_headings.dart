@@ -12,9 +12,9 @@ class FoodList extends StatelessWidget {
       required this.ontap,
       required this.pageController});
   final List<String> list = [
-    'Recommended',
-    'MoMo',
-    "popular",
+    'momo',
+    'popular',
+    "recommended",
     'thakali',
   ];
 

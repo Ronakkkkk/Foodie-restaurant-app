@@ -1,15 +1,16 @@
 import 'dart:core';
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:foodie/constants/colors.dart';
 import 'package:foodie/constants/texts.dart';
 import 'package:foodie/screens/menu_screen/main_menu_screen.dart';
 
-import 'package:logger/logger.dart';
+import 'package:foodie/widgets/string_casing.dart';
+import 'package:foodie/widgets/cloud_image_loader.dart';
 
 class FoodMenu extends StatefulWidget {
   final int selected;
@@ -107,14 +108,11 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
+            width: double.maxFinite,
+            height: 115,
             margin:
                 const EdgeInsets.only(right: 20, left: 20, top: 7, bottom: 0),
-            child: Image(
-              image: index % 2 == 0
-                  ? AssetImage('assets/images/burger.png')
-                  : AssetImage('assets/images/bowl.png'),
-              fit: BoxFit.cover,
-            ),
+            child: (CloudImageLoader(menu[index]['image'])),
           ),
           Container(
             padding: const EdgeInsets.only(left: 20),
@@ -122,7 +120,7 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  menu[index]['name'],
+                  menu[index]['name'].toString().toTitleCase(),
                   textAlign: TextAlign.left,
                   style: kBigText.copyWith(
                       fontSize: 20,
@@ -132,7 +130,7 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
                   height: 5,
                 ),
                 Text(
-                  menu[index]['cuisine'],
+                  menu[index]['cuisine'].toString(),
                   style: kSmallText.copyWith(
                       fontSize: 16, color: const Color(0xff747478)),
                 ),
@@ -140,7 +138,7 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
                 Row(
                   children: [
                     Text(
-                      "\$",
+                      "Rs.",
                       style: kSmallText.copyWith(
                           fontSize: 15,
                           color: index % 2 == 0 ? Colors.white : kPrimaryColor,
@@ -151,20 +149,20 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
                       width: 5,
                     ),
                     Text(
-                      '14',
+                      menu[index]['price'].toString(),
                       style: kSmallText.copyWith(
                           fontSize: 22,
                           color: index % 2 == 0 ? Colors.white : kPrimaryColor,
                           fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      ".45",
-                      style: kSmallText.copyWith(
-                          fontSize: 17,
-                          color: index % 2 == 0 ? Colors.white : kPrimaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontFeatures: [const FontFeature.superscripts()]),
-                    ),
+                    // Text(
+                    //   ".0",
+                    //   style: kSmallText.copyWith(
+                    //       fontSize: 17,
+                    //       color: index % 2 == 0 ? Colors.white : kPrimaryColor,
+                    //       fontWeight: FontWeight.bold,
+                    //       fontFeatures: [const FontFeature.superscripts()]),
+                    // ),
                     const SizedBox(
                       width: 15,
                     ),
@@ -178,7 +176,7 @@ Widget _menuContent(int index, List<Map<String, dynamic>> menu, context) {
                               : kPrimaryColor),
                       child: Center(
                         child: Text(
-                          'Sell',
+                          'Buy',
                           style: kBigText.copyWith(
                               fontSize: 14, color: Colors.white),
                         ),

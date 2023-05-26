@@ -7,6 +7,8 @@ import 'package:foodie/constants/texts.dart';
 import 'package:foodie/widgets/custom_app_bar.dart';
 
 class Namescreen extends StatelessWidget {
+  final Map<dynamic, dynamic> data;
+  Namescreen(this.data);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -54,7 +56,7 @@ class Namescreen extends StatelessWidget {
                       height: 25,
                     ),
                     Text(
-                      "Ronak R. Rauniyar",
+                      data['name'],
                       style: kSmallText.copyWith(
                           fontSize: 26, fontWeight: FontWeight.w900),
                     ),
@@ -62,7 +64,7 @@ class Namescreen extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      'Kathmandu, NP',
+                      data['email'],
                       style: kSmallText.copyWith(fontSize: 15),
                     )
                   ],
