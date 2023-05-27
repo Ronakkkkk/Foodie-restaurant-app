@@ -74,13 +74,15 @@ class Addaddress extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(25),
               child: Column(children: [
-                _textField(
-                    addtitlecontroller, 'Address title; name, office', 1),
-                _textField(namecontroller, 'Name', 1),
-                _textField(orgcontroller, 'Organiation', 1),
-                _textField(detailscontroller, 'Detailed Address location', 4),
-                _textField(numbercontroller, 'Number', 1),
-                _textField(alnumbercontroller, 'Alternate number', 1),
+                _textField(addtitlecontroller, 'Address title; name, office', 1,
+                    TextInputType.text),
+                _textField(namecontroller, 'Name', 1, TextInputType.name),
+                _textField(orgcontroller, 'Organiation', 1, TextInputType.text),
+                _textField(detailscontroller, 'Detailed Address location', 4,
+                    TextInputType.text),
+                _textField(numbercontroller, 'Number', 1, TextInputType.phone),
+                _textField(alnumbercontroller, 'Alternate number', 1,
+                    TextInputType.phone),
                 SizedBox(
                   height: 20,
                 ),
@@ -113,11 +115,12 @@ class Addaddress extends StatelessWidget {
   }
 }
 
-Widget _textField(
-    TextEditingController controller, String hinttext, int maxlines) {
+Widget _textField(TextEditingController controller, String hinttext,
+    int maxlines, TextInputType type) {
   return Column(
     children: [
       TextField(
+        keyboardType: type,
         controller: controller,
         maxLines: maxlines,
         style: kTextField,

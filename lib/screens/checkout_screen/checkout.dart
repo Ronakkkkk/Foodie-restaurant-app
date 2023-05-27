@@ -138,15 +138,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       hintStyle: kSmallText.copyWith(fontSize: 18)),
                 ),
               ),
-              // Container(
-              //   margin: EdgeInsets.only(
-              //     left: 300,
-              //     top: 20,
-              //   ),
-              //   height: 100,
-              //   width: 100,
-              //   child: Image.asset("assets/images/vrburger.png"),
-              // ),
+
               Expanded(child: Container()),
               GestureDetector(
                 onTap: () {

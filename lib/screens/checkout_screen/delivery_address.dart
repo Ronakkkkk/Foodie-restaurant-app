@@ -60,8 +60,7 @@ class _DeliveryAddressListViewState extends State<DeliveryAddressListView> {
           }
 
           if (snapshot.hasError) {
-            return Text(
-                'Error: ${snapshot.error}'); // Show an error message if there's an error
+            return Text('Error: ${snapshot.error}');
           }
 
           List<QueryDocumentSnapshot> AddressItems = snapshot.data!.docs;

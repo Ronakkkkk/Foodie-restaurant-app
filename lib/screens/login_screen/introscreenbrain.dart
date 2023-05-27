@@ -10,7 +10,7 @@ class loginbrain {
       'image': 'assets/images/ice.png',
       'head': 'say goodbye to\ninefficient experience',
       'leg':
-          'book your table, order food beforehand,\npay from the scanned bill\nattain efficieny'
+          'book your table, order food faster,\npay from the scanned bill\nattain efficieny'
     },
     {
       'image': 'assets/images/vrpizza.png',
