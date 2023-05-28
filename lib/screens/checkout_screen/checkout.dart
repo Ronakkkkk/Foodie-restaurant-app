@@ -87,7 +87,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     Container(
                       margin: const EdgeInsets.only(left: 20),
                       child: Text(
-                        "Checkout",
+                        "Checkout.",
                         style: kBigText.copyWith(fontSize: 28),
                       ),
                     ),
@@ -133,7 +133,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   onChanged: handleTextChanged,
                   style: kSmallText,
                   decoration: InputDecoration(
-                      hintText: 'Any extra requests or instructions...',
+                      hintText:
+                          'Any specific instruction for how you want your food to be..',
                       border: const OutlineInputBorder(),
                       hintStyle: kSmallText.copyWith(fontSize: 18)),
                 ),

@@ -14,7 +14,7 @@ class CheckoutSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const dummyOrders = ['Chicken Momo', 'Strawberry Milkshake', 'Veg C Momo'];
+    const dummyOrders = ['Chicken MoMo', 'Strawberry Milkshake', 'Veg C Momo'];
     return Scaffold(
       backgroundColor: kBackground,
       body: SingleChildScrollView(

@@ -4,7 +4,7 @@ class loginbrain {
       'image': 'assets/images/vrcake.png',
       'head': 'pay bills\nget rewarded',
       'leg':
-          'earn assured cashbacks and\noffers every time you pay for the\nfood you odered'
+          'earn assured cashback and\noffers every time you pay for the\nfood you odered'
     },
     {
       'image': 'assets/images/ice.png',
