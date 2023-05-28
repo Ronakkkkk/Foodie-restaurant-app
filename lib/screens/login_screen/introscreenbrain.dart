@@ -14,7 +14,7 @@ class loginbrain {
     },
     {
       'image': 'assets/images/vrpizza.png',
-      'head': 'order food and have\nit delivered',
+      'head': 'order food and have\nit delivered asap',
       'leg':
           'use the personalized menu,\nseamles payment gateway for\nthe best experience'
     }
