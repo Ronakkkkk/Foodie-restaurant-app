@@ -165,7 +165,7 @@ Widget _addAddress(context) {
   return GestureDetector(
     onTap: () {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => AddAddressScreen()));
+          context, MaterialPageRoute(builder: (context) => Addaddress()));
     },
     child: Container(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
