@@ -1,24 +1,38 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodie/constants/colors.dart';
+import 'package:foodie/screens/checkout_screen/map_screen.dart';
 import 'package:foodie/widgets/custom_app_bar.dart';
 import 'package:neopop/widgets/buttons/neopop_button/neopop_button.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
+import 'package:flutter/material.dart';
 
 import '../../constants/texts.dart';
 import '../../firebase/addressinfo.dart';
 
-class Addaddress extends StatelessWidget {
-  final namecontroller = TextEditingController();
-  final addtitlecontroller = TextEditingController();
-  final orgcontroller = TextEditingController();
-  final detailscontroller = TextEditingController();
-  final numbercontroller = TextEditingController();
-  final alnumbercontroller = TextEditingController();
+class AddAddressScreen extends StatefulWidget {
+  const AddAddressScreen({super.key});
+
+  @override
+  State<AddAddressScreen> createState() => _AddAddressScreenState();
+}
+
+class _AddAddressScreenState extends State<AddAddressScreen> {
+  final userNameController = TextEditingController();
+  final addressTitleController = TextEditingController();
+  final userOrganizationController = TextEditingController();
+  final addressDetailController = TextEditingController();
+  final userPhoneController = TextEditingController();
+  final userAltPhoneController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   addressFirestoreService firestoreService = addressFirestoreService();
 
-  Future<void> addAddress(BuildContext context) async {
+  Future<void> AddAddressScreen(BuildContext context) async {
     try {
       // Get the current user ID
       User? currentUser = _auth.currentUser;
@@ -26,12 +40,12 @@ class Addaddress extends StatelessWidget {
 
       if (userId != null) {
         // Get the address information from the text fields
-        String name = namecontroller.text;
-        String title = addtitlecontroller.text;
-        String organization = orgcontroller.text;
-        String location = detailscontroller.text;
-        String number = numbercontroller.text;
-        String alnumber = alnumbercontroller.text;
+        String name = userNameController.text;
+        String title = addressTitleController.text;
+        String organization = userOrganizationController.text;
+        String location = addressDetailController.text;
+        String number = userPhoneController.text;
+        String alnumber = userAltPhoneController.text;
 
         // Add the user information to Firestore
         await firestoreService.addAddress(
@@ -70,17 +84,24 @@ class Addaddress extends StatelessWidget {
               height: 230,
               width: double.infinity,
               color: Colors.yellow,
+              child: ElevatedButton(
+                child: const Text("Open Map"),
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => MapScreen(),
+                )),
+              ),
             ),
             Container(
               padding: EdgeInsets.all(25),
               child: Column(children: [
                 _textField(
-                    addtitlecontroller, 'Address title; name, office', 1),
-                _textField(namecontroller, 'Name', 1),
-                _textField(orgcontroller, 'Organiation', 1),
-                _textField(detailscontroller, 'Detailed Address location', 4),
-                _textField(numbercontroller, 'Number', 1),
-                _textField(alnumbercontroller, 'Alternate number', 1),
+                    addressTitleController, 'Address title; name, office', 1),
+                _textField(userNameController, 'Name', 1),
+                _textField(userOrganizationController, 'Organiation', 1),
+                _textField(
+                    addressDetailController, 'Detailed Address location', 4),
+                _textField(userPhoneController, 'Number', 1),
+                _textField(userAltPhoneController, 'Alternate number', 1),
                 SizedBox(
                   height: 20,
                 ),
@@ -88,7 +109,7 @@ class Addaddress extends StatelessWidget {
                   color: Colors.white,
                   onTapUp: () {},
                   onTapDown: () async {
-                    await addAddress(context);
+                    await AddAddressScreen(context);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
