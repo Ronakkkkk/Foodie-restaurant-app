@@ -172,8 +172,8 @@ Widget _addAddress(context) {
           borderRadius: BorderRadius.circular(16), color: Colors.white),
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0, bottom: 10),
+          const Padding(
+            padding: EdgeInsets.only(top: 16.0, bottom: 10),
             child: Icon(Icons.add_location, color: kPrimaryColor),
           ),
           SizedBox(
