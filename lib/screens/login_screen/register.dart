@@ -91,7 +91,7 @@ class RegisterScreen extends StatelessWidget {
                                       color: Color(0xff6B6B6B), width: 2),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10))),
-                              hintText: 'Enter phone number',
+                              hintText: 'Enter your phone number',
                               hintStyle: kHintText,
                             ),
                           ),
