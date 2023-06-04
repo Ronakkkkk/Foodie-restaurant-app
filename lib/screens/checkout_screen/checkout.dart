@@ -14,7 +14,7 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  int selectedDeliveryAddress = -1;
+  int selectedDeliveryAddress = -2;
   getSelectedDeliveryAddress(newValue) {
     setState(() {
       selectedDeliveryAddress = newValue;
