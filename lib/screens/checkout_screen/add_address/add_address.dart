@@ -117,6 +117,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     }
   }
 
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -168,7 +169,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   style: kBigText.copyWith(fontSize: 20, color: Colors.white70),
                 ),
               ),
-              _addressDetailForm(context)
+              _addressDetailForm(context, _formKey)
             ],
           ),
         ),
@@ -176,56 +177,64 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     );
   }
 
-  Container _addressDetailForm(BuildContext context) {
+  Container _addressDetailForm(BuildContext context, GlobalKey formKey) {
     return Container(
       padding: const EdgeInsets.all(25),
-      child: Column(children: [
-        _textField(addressTitleController, 'Address title (e.g. home, office)',
-            1, TextInputType.text),
-        _textField(userNameController, 'Name', 1, TextInputType.name),
-        _textField(
-            userOrgController, 'Organization name', 1, TextInputType.text),
-        _textField(addressDetailsController, 'Detailed Address location', 4,
-            TextInputType.text),
-        _textField(userPhoneController, 'Phone Number', 1, TextInputType.phone),
-        _textField(userAltPhoneController, 'Alternate phone number', 1,
-            TextInputType.phone),
-        const SizedBox(
-          height: 20,
-        ),
-        NeoPopButton(
-          color: Colors.white,
-          onTapUp: () {},
-          onTapDown: () async {
-            await addAddress(context);
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Add address",
-                  style: kCredText.copyWith(fontSize: 15),
-                ),
-              ],
+      child: Form(
+        key: formKey,
+        child: Column(children: [
+          _textField(addressTitleController,
+              'Address title (e.g. home, office)', 1, TextInputType.text,
+              requireValidate: true),
+          _textField(userNameController, 'Name*', 1, TextInputType.name),
+          _textField(
+              userOrgController, 'Organization name', 1, TextInputType.text),
+          _textField(addressDetailsController, 'Detailed Address location', 4,
+              TextInputType.text),
+          _textField(
+              userPhoneController, 'Phone Number', 1, TextInputType.phone),
+          _textField(userAltPhoneController, 'Alternate phone number', 1,
+              TextInputType.phone),
+          const SizedBox(
+            height: 20,
+          ),
+          NeoPopButton(
+            color: Colors.white,
+            onTapUp: () {},
+            onTapDown: () async {
+              if (_formKey.currentState!.validate()) {
+                // Form is valid, proceed with further actions
+                await addAddress(context);
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Add address",
+                    style: kCredText.copyWith(fontSize: 15),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ]),
+        ]),
+      ),
     );
   }
 
   Widget _mapBottomBar(BuildContext context) {
     return Container(
       color: Colors.white10,
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       child: Row(
         children: [
           Text(
             _placemark == null
                 ? ''
-                : '${_placemark!.name!}, ${getPlacemarkSubname(_placemark!)}',
+                : '${_placemark!.name!}, ${getPlacemarkSubname(_placemark!)},\n${_placemark!.postalCode!}, Nepal',
             style: kCredText.copyWith(color: Colors.white),
           ),
           Expanded(child: Container()),
@@ -318,11 +327,20 @@ String getPlacemarkSubname(Geo.Placemark placemark) {
   return longest;
 }
 
-Widget _textField(TextEditingController controller, String hinttext,
-    int maxlines, TextInputType type) {
+Widget _textField(TextEditingController controller, String hintText,
+    int maxlines, TextInputType type,
+    {requireValidate}) {
   return Column(
     children: [
-      TextField(
+      TextFormField(
+        validator: requireValidate != null
+            ? (value) {
+                if (value == null || value.isEmpty) {
+                  return 'This field is required.';
+                }
+                return null;
+              }
+            : null,
         keyboardType: type,
         controller: controller,
         maxLines: maxlines,
@@ -334,7 +352,7 @@ Widget _textField(TextEditingController controller, String hinttext,
           enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Color(0xff6B6B6B), width: 2),
               borderRadius: BorderRadius.all(Radius.circular(10))),
-          hintText: hinttext,
+          hintText: requireValidate != null ? hintText + ' * ' : hintText,
           hintStyle: kHintText,
         ),
       ),

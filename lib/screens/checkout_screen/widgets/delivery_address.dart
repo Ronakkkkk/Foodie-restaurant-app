@@ -124,7 +124,7 @@ class _DeliveryAddressListViewState extends State<DeliveryAddressListView> {
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 7),
                   child: Text(
-                    '${address[index]['placemarkName']} \n ${address[index]['placemarkSubname']}',
+                    '${address[index]['placemarkName']}, ${address[index]['placemarkSubname']} \n44600, Nepal',
                     style: kSmallText.copyWith(fontSize: 16),
                   ),
                 ),
