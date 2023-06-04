@@ -122,7 +122,7 @@ class _DeliveryAddressListViewState extends State<DeliveryAddressListView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  margin: const EdgeInsets.symmetric(vertical: 7),
+                  margin: const EdgeInsets.symmetric(vertical: 8),
                   child: Text(
                     '${address[index]['placemarkName']}, ${address[index]['placemarkSubname']} \n44600, Nepal',
                     style: kSmallText.copyWith(fontSize: 16),
