@@ -3,8 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodie/constants/colors.dart';
 import 'package:foodie/constants/texts.dart';
 import 'package:foodie/screens/checkout_screen/checkout_summary.dart';
-import 'package:foodie/screens/checkout_screen/delivery_address.dart';
-import 'package:foodie/screens/checkout_screen/payment_method.dart';
+import 'package:foodie/screens/checkout_screen/widgets/delivery_address.dart';
+import 'package:foodie/screens/checkout_screen/widgets/payment_method.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -20,14 +20,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       selectedDeliveryAddress = newValue;
     });
   }
-
-  final deliveryAddresses = [
-    'Add New \n Address',
-    'Imadol',
-    'Baneshowr',
-    'Suryabinayak',
-    "Teku"
-  ];
 
   int selectedPaymentMethod = -1;
   getSelectedPaymentMethod(newValue) {
@@ -76,13 +68,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.white),
-                          child: const Icon(
-                            FontAwesomeIcons.angleLeft,
-                            color: kPrimaryColor,
-                          )),
+                        padding: const EdgeInsets.all(12),
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.white),
+                        child: const Icon(
+                          FontAwesomeIcons.angleLeft,
+                          color: kPrimaryColor,
+                        ),
+                      ),
                     ),
                     Container(
                       margin: const EdgeInsets.only(left: 20),

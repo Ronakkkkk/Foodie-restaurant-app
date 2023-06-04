@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie/screens/checkout_screen/add_address.dart';
+import 'package:foodie/screens/checkout_screen/add_address/add_address.dart';
 
-import '../../constants/colors.dart';
-import '../../constants/texts.dart';
-import '../../firebase/addressinfo.dart';
+import '../../../constants/colors.dart';
+import '../../../constants/texts.dart';
+import '../../../firebase/addressinfo.dart';
 
 class DeliveryAddressListView extends StatefulWidget {
   final int selectedIndex;
@@ -22,7 +22,7 @@ class _DeliveryAddressListViewState extends State<DeliveryAddressListView> {
   late String userId;
   late CollectionReference addressCollection =
       FirebaseFirestore.instance.collection('users');
-  late List<QueryDocumentSnapshot> AddressItems = [];
+  late List<QueryDocumentSnapshot> addressItems = [];
   addressFirestoreService firestoreService = addressFirestoreService();
 
   void changeSelectedIndex(newIndex) {
@@ -56,33 +56,31 @@ class _DeliveryAddressListViewState extends State<DeliveryAddressListView> {
         stream: addressCollection.snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator(); // Show a loading indicator while waiting for data
+            return Container(); // Show a loading indicator while waiting for data
           }
 
           if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           }
 
-          List<QueryDocumentSnapshot> AddressItems = snapshot.data!.docs;
+          List<QueryDocumentSnapshot> addressItems = snapshot.data!.docs;
           return Container(
             height: 160,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 8, left: 20),
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: AddressItems.length + 1,
-                itemBuilder: (BuildContext context, int index) {
-                  if (index == AddressItems.length) {
-                    // Last item, display "Add New Address" widget
-                    return _addAddress(context);
-                  } else {
-                    // Display address widget for existing documents
-                    return _deliveryAddress(AddressItems, index);
-                  }
-                },
-                separatorBuilder: (context, index) => SizedBox(
-                  width: 11,
-                ),
+            padding: const EdgeInsets.only(top: 8, bottom: 8, left: 20),
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: addressItems.length + 1,
+              itemBuilder: (BuildContext context, int index) {
+                if (index == addressItems.length) {
+                  // Last item, display "Add New Address" widget
+                  return _addAddress(context);
+                } else {
+                  // Display address widget for existing documents
+                  return _deliveryAddress(addressItems, index);
+                }
+              },
+              separatorBuilder: (context, index) => SizedBox(
+                width: 11,
               ),
             ),
           );
@@ -111,7 +109,7 @@ class _DeliveryAddressListViewState extends State<DeliveryAddressListView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  address[index]['title'],
+                  address[index]['addressTitle'],
                   style: kCredText.copyWith(fontSize: 18, color: textColor),
                 ),
                 Icon(
@@ -124,11 +122,12 @@ class _DeliveryAddressListViewState extends State<DeliveryAddressListView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                    margin: const EdgeInsets.symmetric(vertical: 15),
-                    child: Text(
-                      'M8X+HHH,Ghumti kumari Marga \nKathmandu, Nepal',
-                      style: kSmallText.copyWith(fontSize: 16),
-                    )),
+                  margin: const EdgeInsets.symmetric(vertical: 7),
+                  child: Text(
+                    '${address[index]['placemarkName']} \n ${address[index]['placemarkSubname']}',
+                    style: kSmallText.copyWith(fontSize: 16),
+                  ),
+                ),
                 GestureDetector(
                   onTap: () async {
                     String? userId = await firestoreService
@@ -148,11 +147,12 @@ class _DeliveryAddressListViewState extends State<DeliveryAddressListView> {
               ],
             ),
             Container(
-                margin: const EdgeInsets.only(top: 5),
-                child: Text(
-                  address[index]['number'],
-                  style: kSmallText.copyWith(fontSize: 16),
-                )),
+              margin: const EdgeInsets.only(top: 5),
+              child: Text(
+                address[index]['userPhone'],
+                style: kSmallText.copyWith(fontSize: 16),
+              ),
+            ),
           ],
         ),
       ),
@@ -164,7 +164,7 @@ Widget _addAddress(context) {
   return GestureDetector(
     onTap: () {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Addaddress()));
+          context, MaterialPageRoute(builder: (context) => AddAddressScreen()));
     },
     child: Container(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
