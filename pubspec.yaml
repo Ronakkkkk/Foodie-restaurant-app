@@ -1,61 +1,54 @@
 name: foodie
 description: A new Flutter project.
 
-
-publish_to: 'none' 
-
+publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
   sdk: ">=2.17.0-87.0.dev <3.0.0"
 
-
 dependencies:
   flutter:
     sdk: flutter
-  
+
   cupertino_icons: ^1.0.2
   smooth_page_indicator: ^1.0.0+2
   dots_indicator: ^2.1.0
   font_awesome_flutter: ^10.1.0
   sliding_up_panel: ^2.0.0+1
   get: ^4.6.5
-  
+
   provider: ^6.0.3
   logger: ^1.3.0
-  
+
   neopop: ^1.0.2
   firebase_core: ^2.10.0
   firebase_auth: ^4.4.2
   pinput: ^2.2.31
   cloud_firestore: ^4.6.0
   firebase_storage: ^11.1.2
-
+  google_maps_flutter: ^2.2.8
+  location: ^4.4.0
+  geocoding: ^2.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  
   flutter_lints: ^1.0.0
-
 
 flutter:
   assets:
     - assets/images/
 
-  
   uses-material-design: true
 
- 
-  
   fonts:
     - family: SourceSerifPro
       fonts:
         - asset: assets/SourceSerifPro-Light.ttf
-        
-         
+
     - family: youngserif
       fonts:
         - asset: assets/youngserif-regular.otf
@@ -63,12 +56,11 @@ flutter:
     - family: Mustica
       fonts:
         - asset: assets/Mustica-Pro.otf
-    
+
     - family: Momcakelight
       fonts:
         - asset: assets/MomcakePro-Regular.ttf
-        
-    
+
     - family: Momcakemedium
       fonts:
         - asset: assets/MomcakePro-Medium.ttf

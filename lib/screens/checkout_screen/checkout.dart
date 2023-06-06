@@ -3,8 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodie/constants/colors.dart';
 import 'package:foodie/constants/texts.dart';
 import 'package:foodie/screens/checkout_screen/checkout_summary.dart';
-import 'package:foodie/screens/checkout_screen/delivery_address.dart';
-import 'package:foodie/screens/checkout_screen/payment_method.dart';
+import 'package:foodie/screens/checkout_screen/widgets/delivery_address.dart';
+import 'package:foodie/screens/checkout_screen/widgets/payment_method.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -14,20 +14,12 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  int selectedDeliveryAddress = -1;
+  int selectedDeliveryAddress = -2;
   getSelectedDeliveryAddress(newValue) {
     setState(() {
       selectedDeliveryAddress = newValue;
     });
   }
-
-  final deliveryAddresses = [
-    'Add New \n Address',
-    'Imadol',
-    'Baneshowr',
-    'Suryabinayak',
-    "Teku"
-  ];
 
   int selectedPaymentMethod = -1;
   getSelectedPaymentMethod(newValue) {
@@ -76,18 +68,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.white),
-                          child: const Icon(
-                            FontAwesomeIcons.angleLeft,
-                            color: kPrimaryColor,
-                          )),
+                        padding: const EdgeInsets.all(12),
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.white),
+                        child: const Icon(
+                          FontAwesomeIcons.angleLeft,
+                          color: kPrimaryColor,
+                        ),
+                      ),
                     ),
                     Container(
                       margin: const EdgeInsets.only(left: 20),
                       child: Text(
-                        "Checkout",
+                        "Checkout.",
                         style: kBigText.copyWith(fontSize: 28),
                       ),
                     ),
@@ -133,20 +126,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   onChanged: handleTextChanged,
                   style: kSmallText,
                   decoration: InputDecoration(
-                      hintText: 'Any extra requests or instructions...',
+                      hintText:
+                          'Any specific instruction for how you want your food to be..',
                       border: const OutlineInputBorder(),
                       hintStyle: kSmallText.copyWith(fontSize: 18)),
                 ),
               ),
-              // Container(
-              //   margin: EdgeInsets.only(
-              //     left: 300,
-              //     top: 20,
-              //   ),
-              //   height: 100,
-              //   width: 100,
-              //   child: Image.asset("assets/images/vrburger.png"),
-              // ),
+
               Expanded(child: Container()),
               GestureDetector(
                 onTap: () {

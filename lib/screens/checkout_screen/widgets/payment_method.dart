@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/colors.dart';
-import '../../constants/texts.dart';
+import '../../../constants/colors.dart';
+import '../../../constants/texts.dart';
 
 class PaymentMethodListView extends StatelessWidget {
   final List paymentMethods;

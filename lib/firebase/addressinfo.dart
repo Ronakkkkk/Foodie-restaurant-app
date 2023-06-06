@@ -16,24 +16,32 @@ class addressFirestoreService {
 
   Future<void> addAddress(
       String userId,
-      String title,
-      String name,
-      String organization,
-      String location,
-      String number,
-      String alnumber) async {
+      String userName,
+      String addressTitle,
+      String userOrganization,
+      String addressDetails,
+      String userPhone,
+      String userAltPhone,
+      String placemarkName,
+      String placemarkSubname,
+      double locationLat,
+      double locationLng) async {
     try {
       DocumentReference userDocRef = _usersCollection.doc(userId);
       CollectionReference addressSubcollection =
           userDocRef.collection('address');
 
       await addressSubcollection.add({
-        'name': name,
-        'title': title,
-        'org': organization,
-        'location': location,
-        'number': number,
-        'alnumber': alnumber,
+        'userName': userName,
+        'addressTitle': addressTitle,
+        'userOrganization': userOrganization,
+        'addressDetails': addressDetails,
+        'userPhone': userPhone,
+        'userAltPhone': userAltPhone,
+        'placemarkName': placemarkName,
+        'placemarkSubname': placemarkSubname,
+        'locationLat': locationLat,
+        'locationLng': locationLng,
       });
     } catch (e) {
       // Handle any errors that occur during document creation
