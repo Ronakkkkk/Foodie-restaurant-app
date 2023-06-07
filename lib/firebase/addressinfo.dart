@@ -2,10 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class addressFirestoreService {
-  final CollectionReference _usersCollection =
-      FirebaseFirestore.instance.collection('users');
-
+  final CollectionReference _usersCollection = FirebaseFirestore.instance.collection('users');
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   Future<String?> getCurrentUserId() async {
     User? user = _auth.currentUser;
     if (user != null) {
@@ -24,12 +23,13 @@ class addressFirestoreService {
       String userAltPhone,
       String placemarkName,
       String placemarkSubname,
+      placemarkPostalCode,
+      placemarkCountry,
       double locationLat,
       double locationLng) async {
     try {
       DocumentReference userDocRef = _usersCollection.doc(userId);
-      CollectionReference addressSubcollection =
-          userDocRef.collection('address');
+      CollectionReference addressSubcollection = userDocRef.collection('address');
 
       await addressSubcollection.add({
         'userName': userName,
@@ -40,6 +40,8 @@ class addressFirestoreService {
         'userAltPhone': userAltPhone,
         'placemarkName': placemarkName,
         'placemarkSubname': placemarkSubname,
+        'placemarkPostalCode': placemarkPostalCode,
+        'placemarkCountry': placemarkCountry,
         'locationLat': locationLat,
         'locationLng': locationLng,
       });
@@ -52,8 +54,7 @@ class addressFirestoreService {
   Future<void> deleteAddress(String userId, String addressId) async {
     try {
       DocumentReference userDocRef = _usersCollection.doc(userId);
-      CollectionReference addressSubcollection =
-          userDocRef.collection('address');
+      CollectionReference addressSubcollection = userDocRef.collection('address');
 
       await addressSubcollection.doc(addressId).delete();
     } catch (e) {
