@@ -12,9 +12,7 @@ class MapScreen extends StatefulWidget {
   final void Function(GoogleMapController) _onMapCreated;
   final void Function(double, double) _setNewLocation;
 
-  const MapScreen(this._mapController, this._userLatLng, this._onMapCreated,
-      this._setNewLocation,
-      {super.key});
+  const MapScreen(this._mapController, this._userLatLng, this._onMapCreated, this._setNewLocation, {super.key});
   @override
   _MapScreenState createState() => _MapScreenState();
 }
@@ -23,10 +21,8 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     double iconSize = 54;
-    double screenWidth = MediaQuery.of(context).size.width *
-        MediaQuery.of(context).devicePixelRatio;
-    double screenHeight = MediaQuery.of(context).size.height *
-        MediaQuery.of(context).devicePixelRatio;
+    double screenWidth = MediaQuery.of(context).size.width * MediaQuery.of(context).devicePixelRatio;
+    double screenHeight = MediaQuery.of(context).size.height * MediaQuery.of(context).devicePixelRatio;
     double middleX = screenWidth / 2;
     double middleY = screenHeight / 2 - iconSize;
 
@@ -54,8 +50,7 @@ class _MapScreenState extends State<MapScreen> {
             height: 50,
             left: 50,
             right: 50,
-            child: _SetLocationButton(
-                widget: widget, middleX: middleX, middleY: middleY),
+            child: _SetLocationButton(widget: widget, middleX: middleX, middleY: middleY),
           ),
         ],
       ),
@@ -136,8 +131,7 @@ class _BackButton extends StatelessWidget {
       },
       child: Container(
           padding: const EdgeInsets.all(12),
-          decoration:
-              const BoxDecoration(shape: BoxShape.circle, color: kPrimaryColor),
+          decoration: const BoxDecoration(shape: BoxShape.circle, color: kPrimaryColor),
           child: const Icon(
             FontAwesomeIcons.angleLeft,
             color: kBackground,
