@@ -36,6 +36,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
   //maps-input
   GoogleMapController? _mapController;
+  bool isMapCreated = false;
   LatLng? _userLatLng;
   Location _location = Location();
   Geo.Placemark? _placemark;
@@ -62,8 +63,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
   void _setNewLocation(double x, double y) async {
     try {
-      _userLatLng = await _mapController!
-          .getLatLng(ScreenCoordinate(x: x.toInt(), y: y.toInt()));
+      _userLatLng = await _mapController!.getLatLng(ScreenCoordinate(x: x.toInt(), y: y.toInt()));
       List<Geo.Placemark> placemarks = await Geo.placemarkFromCoordinates(
         _userLatLng!.latitude,
         _userLatLng!.longitude,
@@ -94,6 +94,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
         String placemarkName = _placemark!.name!;
         String placemarkSubname = getPlacemarkSubname(_placemark!);
+        String placemarkPostalCode = _placemark!.postalCode!;
+        String placemarkCountry = _placemark!.country!;
 
         // Add the user information to Firestore
         await firestoreService.addAddress(
@@ -106,6 +108,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
             userAltPhone,
             placemarkName,
             placemarkSubname,
+            placemarkPostalCode,
+            placemarkCountry,
             _userLatLng!.latitude,
             _userLatLng!.longitude);
 
@@ -127,8 +131,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
           child: Column(
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -136,8 +139,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       onTap: () => Navigator.pop(context),
                       child: Container(
                         padding: const EdgeInsets.all(12),
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: kPrimaryColor),
+                        decoration: const BoxDecoration(shape: BoxShape.circle, color: kPrimaryColor),
                         child: const Icon(
                           FontAwesomeIcons.angleLeft,
                           color: kBackground,
@@ -148,8 +150,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       margin: const EdgeInsets.only(left: 20),
                       child: Text(
                         "Add New Address",
-                        style:
-                            kBigText.copyWith(fontSize: 24, color: kBackground),
+                        style: kBigText.copyWith(fontSize: 24, color: kBackground),
                       ),
                     ),
                     Expanded(child: Container())
@@ -183,18 +184,13 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       child: Form(
         key: formKey,
         child: Column(children: [
-          _textField(addressTitleController,
-              'Address title (e.g. home, office)', 1, TextInputType.text,
+          _textField(addressTitleController, 'Address title (e.g. home, office)', 1, TextInputType.text,
               requireValidate: true),
           _textField(userNameController, 'Name*', 1, TextInputType.name),
-          _textField(
-              userOrgController, 'Organization name', 1, TextInputType.text),
-          _textField(addressDetailsController, 'Detailed Address location', 4,
-              TextInputType.text),
-          _textField(
-              userPhoneController, 'Phone Number', 1, TextInputType.phone),
-          _textField(userAltPhoneController, 'Alternate phone number', 1,
-              TextInputType.phone),
+          _textField(userOrgController, 'Organization name', 1, TextInputType.text),
+          _textField(addressDetailsController, 'Detailed Address location', 4, TextInputType.text),
+          _textField(userPhoneController, 'Phone Number', 1, TextInputType.phone),
+          _textField(userAltPhoneController, 'Alternate phone number', 1, TextInputType.phone),
           const SizedBox(
             height: 20,
           ),
@@ -233,17 +229,15 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
         children: [
           Text(
             _placemark == null
-                ? ''
+                ? 'Location not set.'
                 : '${_placemark!.name!}, ${getPlacemarkSubname(_placemark!)},\n${_placemark!.postalCode!}, Nepal',
-            style: kCredText.copyWith(color: Colors.white),
+            style: kCredText.copyWith(color: _placemark == null ? Colors.red : Colors.white),
           ),
           Expanded(child: Container()),
           TextButton(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                  color: Colors.white12,
-                  borderRadius: BorderRadius.circular(5)),
+              decoration: BoxDecoration(color: Colors.white12, borderRadius: BorderRadius.circular(5)),
               child: Text(
                 "Set Location",
                 style: kCredText.copyWith(color: kBackground),
@@ -286,13 +280,20 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
           return Stack(
             children: [
               GoogleMap(
+                onMapCreated: (controller) async {
+                  isMapCreated == false
+                      ? await controller.animateCamera(
+                          CameraUpdate.newLatLngZoom(_userLatLng!, 18),
+                        )
+                      : controller.moveCamera(
+                          CameraUpdate.newLatLngZoom(_userLatLng!, 18),
+                        );
+                  isMapCreated = true;
+                },
                 myLocationEnabled: true,
                 myLocationButtonEnabled: false,
                 zoomControlsEnabled: false,
-                initialCameraPosition: CameraPosition(
-                  zoom: 18,
-                  target: _userLatLng!,
-                ),
+                initialCameraPosition: CameraPosition(target: LatLng(10, 10)),
               ),
               const Center(
                 child: Icon(
@@ -327,8 +328,7 @@ String getPlacemarkSubname(Geo.Placemark placemark) {
   return longest;
 }
 
-Widget _textField(TextEditingController controller, String hintText,
-    int maxlines, TextInputType type,
+Widget _textField(TextEditingController controller, String hintText, int maxlines, TextInputType type,
     {requireValidate}) {
   return Column(
     children: [
