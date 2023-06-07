@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodie/constants/colors.dart';
@@ -5,6 +7,8 @@ import 'package:foodie/constants/texts.dart';
 import 'package:foodie/screens/checkout_screen/checkout_summary.dart';
 import 'package:foodie/screens/checkout_screen/widgets/delivery_address.dart';
 import 'package:foodie/screens/checkout_screen/widgets/payment_method.dart';
+
+import 'models/address.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -14,8 +18,9 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  int selectedDeliveryAddress = -2;
-  getSelectedDeliveryAddress(newValue) {
+  late Address selectedDeliveryAddress;
+  setNewAddress(Address newValue) {
+    log(newValue.toString());
     setState(() {
       selectedDeliveryAddress = newValue;
     });
@@ -30,8 +35,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   final paymentMethods = ["Cash on Delivery", "FonePay", "Khalti", "Esewa"];
 
-  final TextEditingController specialInstructionsController =
-      TextEditingController();
+  final TextEditingController specialInstructionsController = TextEditingController();
 
   @override
   void dispose() {
@@ -69,8 +73,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       onTap: () => Navigator.pop(context),
                       child: Container(
                         padding: const EdgeInsets.all(12),
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white),
+                        decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
                         child: const Icon(
                           FontAwesomeIcons.angleLeft,
                           color: kPrimaryColor,
@@ -96,8 +99,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   )),
               //delivery address
 
-              DeliveryAddressListView(
-                  selectedDeliveryAddress, getSelectedDeliveryAddress),
+              DeliveryAddressListView(setNewAddress),
 
               //payment method
               Container(
@@ -108,8 +110,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
               ),
 
-              PaymentMethodListView(paymentMethods, selectedPaymentMethod,
-                  getSelectedPaymentMethod),
+              PaymentMethodListView(paymentMethods, selectedPaymentMethod, getSelectedPaymentMethod),
 
               //special instructions
               Container(
@@ -126,8 +127,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   onChanged: handleTextChanged,
                   style: kSmallText,
                   decoration: InputDecoration(
-                      hintText:
-                          'Any specific instruction for how you want your food to be..',
+                      hintText: 'Any specific instruction for how you want your food to be..',
                       border: const OutlineInputBorder(),
                       hintStyle: kSmallText.copyWith(fontSize: 18)),
                 ),
@@ -140,27 +140,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => CheckoutSummary(
-                          'imadol',
-                          paymentMethods[selectedPaymentMethod],
-                          specialInstructions),
+                          selectedDeliveryAddress, paymentMethods[selectedPaymentMethod], specialInstructions),
                     ),
                   );
                 },
                 child: Container(
                   height: 50,
                   width: double.infinity,
-                  margin:
-                      const EdgeInsets.only(bottom: 10, left: 10, right: 10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: kPrimaryColor),
+                  margin: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: kPrimaryColor),
                   child: Center(
                     child: Text(
                       'Checkout',
-                      style: kSmallText.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
+                      style: kSmallText.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                   ),
                 ),
