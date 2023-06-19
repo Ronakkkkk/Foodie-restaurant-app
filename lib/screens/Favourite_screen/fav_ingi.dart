@@ -25,7 +25,7 @@ class Favingi extends StatelessWidget {
                   return _ingicontext(index, ingis);
                 },
                 separatorBuilder: ((context, index) => const SizedBox(
-                      width: 10,
+                      width: 12,
                     )),
                 itemCount: ingis.length),
           ),
@@ -40,12 +40,12 @@ class Favingi extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          height: 45,
-          width: 45,
-          padding: const EdgeInsets.all(8),
+          height: 30,
+          width: 30,
+
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
-            color: kBackground,
+            color: Colors.white,
           ),
           // child: Text('${list[index]}'),
           child: Image(
