@@ -51,10 +51,19 @@ Widget _menutile() {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Chicken MoMo',
-                    style:
-                        kBigText.copyWith(color: kPrimaryColor, fontSize: 23),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Chicken MoMo',
+                        style: kBigText.copyWith(
+                            color: kPrimaryColor, fontSize: 23),
+                      ),
+                      Icon(
+                        FontAwesomeIcons.solidHeart,
+                        color: Colors.red,
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -91,17 +100,6 @@ Widget _menutile() {
                 ]),
               ),
             ],
-          ),
-        ),
-      ),
-      GestureDetector(
-        onTap: () {},
-        child: Positioned(
-          top: 15,
-          right: 45,
-          child: Icon(
-            FontAwesomeIcons.solidHeart,
-            color: Colors.red,
           ),
         ),
       ),
