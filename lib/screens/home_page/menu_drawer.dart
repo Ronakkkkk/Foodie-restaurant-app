@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodie/constants/colors.dart';
 import 'package:foodie/constants/texts.dart';
 import 'package:foodie/firebase/auth.dart';
+import 'package:foodie/screens/Favourite_screen/Main_favourite_scnree.dart';
 import 'package:foodie/screens/login_screen/main_intro_screen.dart';
 import 'package:foodie/screens/profile_screen/main_profile_screen.dart';
 import 'package:foodie/screens/cart_screen/main_cart_page.dart';
@@ -104,7 +105,16 @@ class DrawerInfo extends StatelessWidget {
                             builder: (context) => const MainPromoScreen()));
                   },
                 ),
-                const DrawerTitles('Favourites', FontAwesomeIcons.star),
+                DrawerTitles(
+                  'Favourites',
+                  FontAwesomeIcons.star,
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FavouriteScreen()));
+                  },
+                ),
                 DrawerTitles('Profile', FontAwesomeIcons.headSideVirus,
                     onTap: () {
                   Navigator.push(
