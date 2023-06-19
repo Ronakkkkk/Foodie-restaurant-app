@@ -14,33 +14,41 @@ class FavouriteScreen extends StatelessWidget {
         child: Scaffold(
       backgroundColor: kBackground,
       body: Container(
-        padding: EdgeInsets.all(30),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: ,
-              ),
-              CustomAppBar(
-                Icons.arrow_back_ios_outlined,
-                iconColor: kIconColor,
-                leftOnTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Text(
-                'Favourites',
-                style: kBigText.copyWith(fontSize: 28, color: kPrimaryColor),
-              ),
               Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: SearchBar(
-                  hintText: 'Search',
-                  leading: Icon(Icons.search_outlined),
+                padding: const EdgeInsets.all(25),
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 10),
+                      CustomAppBar(
+                        Icons.arrow_back_ios_outlined,
+                        iconColor: kIconColor,
+                        leftOnTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Text(
+                        'Favourites',
+                        style: kBigText.copyWith(
+                            fontSize: 28, color: kPrimaryColor),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: SearchBar(
+                          hintText: 'Search',
+                          leading: Icon(Icons.search_outlined),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               FoodTile()
