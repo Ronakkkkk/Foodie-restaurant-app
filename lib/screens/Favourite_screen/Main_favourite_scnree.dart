@@ -1,12 +1,54 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie/constants/colors.dart';
 import 'package:foodie/screens/Favourite_screen/favourite_food_class.dart';
+import 'package:foodie/screens/Favourite_screen/widgets/Firebase.dart';
 import 'package:foodie/widgets/custom_app_bar.dart';
 
 import '../../constants/texts.dart';
 
-class FavouriteScreen extends StatelessWidget {
+class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({super.key});
+
+  @override
+  State<FavouriteScreen> createState() => _FavouriteScreenState();
+}
+
+class _FavouriteScreenState extends State<FavouriteScreen> {
+  List<Map<String, dynamic>> favoritesData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchFavorites();
+  }
+
+  Future<void> fetchFavorites() async {
+    FavFirebaseService firebaseService = FavFirebaseService();
+    final CollectionReference usersCollection =
+        FirebaseFirestore.instance.collection('users');
+    String? uid = await firebaseService.getCurrentUserId();
+    final DocumentSnapshot userSnapshot = await usersCollection.doc(uid).get();
+
+    final QuerySnapshot favoritesSnapshot =
+        await userSnapshot.reference.collection('favourites').get();
+
+    final List<Map<String, dynamic>> data = favoritesSnapshot.docs
+        .map((doc) => doc.data() as Map<String, dynamic>)
+        .toList();
+
+    setState(() {
+      favoritesData = data;
+    });
+  }
+
+  Future<void> deleteFavorite(DocumentSnapshot favorite) async {
+    final CollectionReference favoritesCollection = favorite.reference.parent;
+
+    await favoritesCollection.doc(favorite.id).delete();
+
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +93,7 @@ class FavouriteScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              FoodTile()
+              FoodTile(favoritesData)
             ],
           ),
         ),
