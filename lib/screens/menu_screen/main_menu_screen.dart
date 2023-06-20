@@ -71,6 +71,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   ),
                   MyAppBar(
                     FontAwesomeIcons.angleLeft,
+                    data,
                     color: kIconColor,
                     leftOnTap: () {
                       Navigator.pop(context);

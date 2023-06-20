@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class addressFirestoreService {
-  final CollectionReference _usersCollection = FirebaseFirestore.instance.collection('users');
+  final CollectionReference _usersCollection =
+      FirebaseFirestore.instance.collection('users');
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<String?> getCurrentUserId() async {
@@ -29,7 +30,8 @@ class addressFirestoreService {
       double locationLng) async {
     try {
       DocumentReference userDocRef = _usersCollection.doc(userId);
-      CollectionReference addressSubcollection = userDocRef.collection('address');
+      CollectionReference addressSubcollection =
+          userDocRef.collection('address');
 
       await addressSubcollection.add({
         'userName': userName,
@@ -54,7 +56,8 @@ class addressFirestoreService {
   Future<void> deleteAddress(String userId, String addressId) async {
     try {
       DocumentReference userDocRef = _usersCollection.doc(userId);
-      CollectionReference addressSubcollection = userDocRef.collection('address');
+      CollectionReference addressSubcollection =
+          userDocRef.collection('address');
 
       await addressSubcollection.doc(addressId).delete();
     } catch (e) {

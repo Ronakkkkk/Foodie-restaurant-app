@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:foodie/screens/Favourite_screen/widgets/Firebase.dart';
 
 class MyAppBar extends StatefulWidget {
   final IconData leftIcon;
   final Function? rightOnTap;
   final Function? leftOnTap;
   final Color color;
-  const MyAppBar(this.leftIcon,
+  final Map<String, dynamic> userdata;
+  const MyAppBar(this.leftIcon, this.userdata,
       {super.key, this.rightOnTap, this.leftOnTap, required this.color});
 
   @override
@@ -15,6 +17,7 @@ class MyAppBar extends StatefulWidget {
 
 class _MyAppBarState extends State<MyAppBar> {
   IconData rightIcon = FontAwesomeIcons.heart;
+  FavFirebaseService firebaseService = FavFirebaseService();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,12 +42,9 @@ class _MyAppBarState extends State<MyAppBar> {
             ),
           ),
           GestureDetector(
-            onTap: () {
-              setState(() {
-                rightIcon = rightIcon == FontAwesomeIcons.heart
-                    ? FontAwesomeIcons.solidHeart
-                    : FontAwesomeIcons.heart;
-              });
+            onTap: () async {
+              String? uid = await firebaseService.getCurrentUserId();
+              firebaseService.addFav(widget.userdata, uid);
             },
             child: Container(
               padding: const EdgeInsets.all(12),
