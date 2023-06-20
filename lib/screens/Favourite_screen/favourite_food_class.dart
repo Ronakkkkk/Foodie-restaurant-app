@@ -8,6 +8,8 @@ import '../../constants/colors.dart';
 import '../../constants/texts.dart';
 
 class FoodTile extends StatefulWidget {
+  List<Map<String, dynamic>> favoritesData;
+  FoodTile(this.favoritesData);
   @override
   State<FoodTile> createState() => _FoodTileState();
 }
@@ -22,17 +24,18 @@ class _FoodTileState extends State<FoodTile> {
           width: double.infinity,
           child: ListView.separated(
             scrollDirection: Axis.vertical,
-            itemBuilder: (context, index) => _menutile(),
+            itemBuilder: (context, index) =>
+                _menutile(index, widget.favoritesData),
             separatorBuilder: (context, innerIndex) => const SizedBox(
               height: 25,
             ),
-            itemCount: 4,
+            itemCount: widget.favoritesData.length,
           ),
         ));
   }
 }
 
-Widget _menutile() {
+Widget _menutile(int index, List data) {
   return Stack(
     children: [
       Container(
@@ -55,7 +58,7 @@ Widget _menutile() {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Chicken MoMo',
+                        data[index]['name'],
                         style: kBigText.copyWith(
                             color: kPrimaryColor, fontSize: 23),
                       ),
@@ -71,7 +74,7 @@ Widget _menutile() {
                 height: 8,
               ),
               Text(
-                'Nepali Delights',
+                data[index]['cuisine'],
                 style: kSmallText.copyWith(
                     fontSize: 20, color: const Color(0xff747478)),
               ),
