@@ -45,6 +45,9 @@ class _MyAppBarState extends State<MyAppBar> {
             onTap: () async {
               String? uid = await firebaseService.getCurrentUserId();
               firebaseService.addFav(widget.userdata, uid);
+              setState(() {
+                rightIcon = FontAwesomeIcons.solidHeart;
+              });
             },
             child: Container(
               padding: const EdgeInsets.all(12),
