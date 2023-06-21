@@ -62,18 +62,12 @@ Widget _menutile(int index, List data) {
                         style: kBigText.copyWith(
                             color: kPrimaryColor, fontSize: 23),
                       ),
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: GestureDetector(
-                          onTap: () {
-                            // Handle trash icon button tap
-                          },
-                          child: Icon(
-                            FontAwesomeIcons.trash,
-                            size: 20,
-                            color: kIconColor,
-                          ),
+                      GestureDetector(
+                        onTap: () {},
+                        child: Icon(
+                          FontAwesomeIcons.trash,
+                          size: 20,
+                          color: kIconColor,
                         ),
                       ),
                     ],
