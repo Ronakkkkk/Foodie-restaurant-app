@@ -29,4 +29,17 @@ class FavFirebaseService {
       print('Error adding user data: $e');
     }
   }
+
+  Future<void> deleteFav(String? uid, String documentId) async {
+    try {
+      await usersCollection
+          .doc(uid)
+          .collection('favourites')
+          .doc(documentId)
+          .delete();
+      print('Document deleted successfully.');
+    } catch (e) {
+      print('Error deleting document: $e');
+    }
+  }
 }
