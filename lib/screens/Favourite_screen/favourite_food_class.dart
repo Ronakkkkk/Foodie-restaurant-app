@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodie/screens/Favourite_screen/fav_ingi.dart';
+import 'package:foodie/widgets/cloud_image_loader.dart';
 
 import '../../constants/colors.dart';
 import '../../constants/texts.dart';
@@ -52,7 +53,6 @@ Widget _menutile(int index, List data) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,9 +62,19 @@ Widget _menutile(int index, List data) {
                         style: kBigText.copyWith(
                             color: kPrimaryColor, fontSize: 23),
                       ),
-                      Icon(
-                        FontAwesomeIcons.solidHeart,
-                        color: Colors.red,
+                      Positioned(
+                        left: 0,
+                        top: 0,
+                        child: GestureDetector(
+                          onTap: () {
+                            // Handle trash icon button tap
+                          },
+                          child: Icon(
+                            FontAwesomeIcons.trash,
+                            size: 20,
+                            color: kIconColor,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -78,7 +88,7 @@ Widget _menutile(int index, List data) {
                 style: kSmallText.copyWith(
                     fontSize: 20, color: const Color(0xff747478)),
               ),
-              Favingi(),
+              Favingi(data[index]['ingredients']),
               Padding(
                 padding: const EdgeInsets.only(top: 0),
                 child: Row(children: [
@@ -108,7 +118,7 @@ Widget _menutile(int index, List data) {
       ),
       Positioned(
         right: 5,
-        bottom: 0,
+        bottom: -1,
         child: Container(
           height: 150,
           width: 150,
@@ -116,7 +126,9 @@ Widget _menutile(int index, List data) {
             shape: BoxShape.circle,
             color: Colors.white,
           ),
-          child: Container(padding: EdgeInsets.all(10), child: CloudImage),
+          child: Container(
+              padding: EdgeInsets.all(10),
+              child: CloudImageLoader(data[index]['image'])),
         ),
       ),
     ],
