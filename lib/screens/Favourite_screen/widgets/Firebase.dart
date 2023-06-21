@@ -16,11 +16,13 @@ class FavFirebaseService {
 
   Future<void> addFav(Map<String, dynamic> userData, String? uid) async {
     try {
+      List<String> ingredients = [];
       await usersCollection.doc(uid).collection('favourites').doc().set({
         'name': userData['name'],
         'cuisine': userData['cuisine'],
         'image': userData['image'],
-        'price': userData['price'].toString()
+        'price': userData['price'].toString(),
+        'ingredients': userData['ingredients']
       });
       print('User data added successfully.');
     } catch (e) {
