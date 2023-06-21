@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:foodie/constants/colors.dart';
 import 'package:foodie/widgets/cloud_image_loader.dart';
-import 'package:foodie/widgets/ingredients.dart';
 
 class Favingi extends StatelessWidget {
+  final List ingis;
+  Favingi(this.ingis);
   @override
   Widget build(BuildContext context) {
-    final List ingis = [
-      'assets/images/steak.png',
-      'assets/images/cheese.png',
-      'assets/images/vegetable.png'
-    ];
-
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -40,19 +35,14 @@ class Favingi extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          height: 30,
-          width: 30,
-
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white,
-          ),
-          // child: Text('${list[index]}'),
-          child: Image(
-            image: AssetImage(ingis[index]),
-            fit: BoxFit.contain,
-          ),
-        ),
+            height: 30,
+            width: 30,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+            ),
+            // child: Text('${list[index]}'),
+            child: CloudImageLoader(ingis[index]['ingiImage'])),
       ],
     );
   }
