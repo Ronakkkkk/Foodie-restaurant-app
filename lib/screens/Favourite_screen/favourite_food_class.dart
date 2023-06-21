@@ -94,7 +94,7 @@ Widget _menutile(int index, List data) {
                     width: 5,
                   ),
                   Text(
-                    '200',
+                    data[index]['price'],
                     style: kSmallText.copyWith(
                         fontSize: 20,
                         color: kPrimaryColor,
@@ -116,12 +116,7 @@ Widget _menutile(int index, List data) {
             shape: BoxShape.circle,
             color: Colors.white,
           ),
-          child: Container(
-              padding: EdgeInsets.all(10),
-              child: Image(
-                image: AssetImage("assets/images/veg-momo.png"),
-                fit: BoxFit.contain,
-              )),
+          child: Container(padding: EdgeInsets.all(10), child: CloudImage),
         ),
       ),
     ],
