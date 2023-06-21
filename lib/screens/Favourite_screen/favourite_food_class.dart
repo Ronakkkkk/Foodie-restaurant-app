@@ -3,14 +3,19 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodie/screens/Favourite_screen/fav_ingi.dart';
+import 'package:foodie/screens/Favourite_screen/widgets/Firebase.dart';
 import 'package:foodie/widgets/cloud_image_loader.dart';
 
 import '../../constants/colors.dart';
 import '../../constants/texts.dart';
 
 class FoodTile extends StatefulWidget {
-  List<Map<String, dynamic>> favoritesData;
-  FoodTile(this.favoritesData);
+  final List<Map<String, dynamic>> favoritesData;
+
+  final Function(int)? onTrashIconTap;
+
+  const FoodTile(this.favoritesData, {this.onTrashIconTap});
+
   @override
   State<FoodTile> createState() => _FoodTileState();
 }
@@ -63,7 +68,15 @@ Widget _menutile(int index, List data) {
                             color: kPrimaryColor, fontSize: 23),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+                          String? uid =
+                              await FavFirebaseService().getCurrentUserId();
+                          String documentId = data[index].id;
+                          if (uid != null) {
+                            await FavFirebaseService()
+                                .deleteFav(uid, documentId);
+                          }
+                        },
                         child: Icon(
                           FontAwesomeIcons.trash,
                           size: 20,
