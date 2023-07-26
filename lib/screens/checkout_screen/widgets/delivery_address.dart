@@ -15,7 +15,8 @@ class DeliveryAddressListView extends StatefulWidget {
   const DeliveryAddressListView(this.setDeliveryAddress, {super.key});
 
   @override
-  State<DeliveryAddressListView> createState() => _DeliveryAddressListViewState();
+  State<DeliveryAddressListView> createState() =>
+      _DeliveryAddressListViewState();
 }
 
 class _DeliveryAddressListViewState extends State<DeliveryAddressListView> {
@@ -36,7 +37,10 @@ class _DeliveryAddressListViewState extends State<DeliveryAddressListView> {
       String userId = user.uid;
 
       setState(() {
-        _addressRef = FirebaseFirestore.instance.collection('users').doc(userId).collection('address');
+        _addressRef = FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .collection('address');
       });
     }
   }
@@ -135,16 +139,19 @@ class _DeliveryAddressListViewState extends State<DeliveryAddressListView> {
         });
   }
 
-  Widget _deliveryAddress(QueryDocumentSnapshot<Object?> addressItem, int index) {
+  Widget _deliveryAddress(
+      QueryDocumentSnapshot<Object?> addressItem, int index) {
     Color bgColor = (index == selectedIndex) ? kPrimaryColor : Colors.white;
     Color textColor = (index == selectedIndex) ? Colors.white : kPrimaryColor;
-    Color iconColor = (index == selectedIndex) ? Colors.lightGreen : kPrimaryColor;
+    Color iconColor =
+        (index == selectedIndex) ? Colors.lightGreen : kPrimaryColor;
     return GestureDetector(
       onTap: () => addressChangeHandler(index),
       child: Container(
         padding: const EdgeInsets.all(12),
         width: 240,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: bgColor),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8), color: bgColor),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -173,7 +180,8 @@ class _DeliveryAddressListViewState extends State<DeliveryAddressListView> {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    String? userId = await _addressService.getCurrentUserId(); // Get the user ID
+                    String? userId = await _addressService
+                        .getCurrentUserId(); // Get the user ID
                     if (userId != null) {
                       _addressService.deleteAddress(
                         userId,
@@ -204,16 +212,18 @@ class _DeliveryAddressListViewState extends State<DeliveryAddressListView> {
   Widget _addAddress() {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const AddAddressScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const AddAddressScreen()));
         addressItems.clear();
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8), color: Colors.white),
         child: Column(
           children: [
             const Padding(
-              padding: EdgeInsets.only(top: 16.0, bottom: 10),
+              padding: EdgeInsets.only(top: 16, bottom: 10),
               child: Icon(Icons.add_location, color: kPrimaryColor),
             ),
             SizedBox(
@@ -221,7 +231,9 @@ class _DeliveryAddressListViewState extends State<DeliveryAddressListView> {
               child: FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text('Add New \n Address',
-                    textAlign: TextAlign.center, style: kSmallText.copyWith(fontSize: 14, color: kPrimaryColor)),
+                    textAlign: TextAlign.center,
+                    style: kSmallText.copyWith(
+                        fontSize: 14, color: kPrimaryColor)),
               ),
             ),
           ],
