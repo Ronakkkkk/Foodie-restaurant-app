@@ -6,8 +6,8 @@ import 'package:foodie/constants/colors.dart';
 class CustomAppBar extends StatelessWidget {
   final IconData leftIcon;
   final IconData? rightIcon;
-  final Function? rightOnTap;
-  final Function? leftOnTap;
+  final Function()? rightOnTap;
+  final Function()? leftOnTap;
   final Color iconColor;
 
   const CustomAppBar(
@@ -25,11 +25,7 @@ class CustomAppBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            onTap: leftOnTap != null
-                ? () {
-                    leftOnTap!();
-                  }
-                : null,
+            onTap: leftOnTap,
             child: Center(
               child: Icon(
                 leftIcon,
@@ -39,11 +35,7 @@ class CustomAppBar extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: rightOnTap != null
-                ? () {
-                    rightOnTap!();
-                  }
-                : null,
+            onTap: rightOnTap,
             child: Center(
               child: Icon(
                 rightIcon,
